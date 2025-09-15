@@ -19,3 +19,15 @@ CREATE TABLE IF NOT EXISTS Utilisateur (
 -- Exemple d’utilisateur admin par défaut (mot de passe à hasher en PHP avant)
 INSERT INTO Utilisateur (nom, email, mot_de_passe, role)
 VALUES ('Super Admin', 'admin@bane-service.com', 'motdepasse_hashé', 'admin');
+
+-- ==============================
+-- TABLE PRODUITS
+-- ==============================
+CREATE TABLE IF NOT EXISTS produits (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL,
+    prix DECIMAL(10,2) NOT NULL,
+    description TEXT,
+    image VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
