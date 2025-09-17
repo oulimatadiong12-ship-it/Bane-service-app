@@ -62,6 +62,6 @@ class AbonnementController {
             $abonnement->setStatut($data['statut']);
             return $abonnement;
         }
-        return null;
+        
     }
 }
