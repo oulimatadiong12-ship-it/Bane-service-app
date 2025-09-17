@@ -21,4 +21,5 @@ class Abonnement {
     public function getStatut() { return $this->statut; }
 
     public function setStatut($statut) { $this->statut = $statut; }
+    public function setId($id) { $this->id = $id; }
 }

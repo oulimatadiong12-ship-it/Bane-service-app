@@ -2,7 +2,7 @@
 // Affichage de la liste des abonnements
 if (!isset($controller)) {
     require_once __DIR__ . '/../../controllers/AbonnementController.php';
-    $controller = new AbonnementController();
+    $controller = new AbonnementController($someArgument);
 }
 $abonnements = $controller->liste();
 ?>
