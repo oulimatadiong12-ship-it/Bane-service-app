@@ -53,4 +53,19 @@ class Produit {
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([$id]);
     }
+
+// ------------------------
+// Rechercher des produits par mot-clé
+// ------------------------
+public function search($keyword) {
+    $sql = "SELECT * FROM produits WHERE nom LIKE ? OR description LIKE ? ORDER BY created_at DESC";
+    $stmt = $this->db->prepare($sql);
+    $like = "%" . $keyword . "%";
+    $stmt->execute([$like, $like]);
+    return $stmt->fetchAll();
+}
+
+
+
+
 }

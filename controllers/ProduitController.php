@@ -39,3 +39,19 @@ if (isset($_GET['action']) && $_GET['action'] === 'supprimer' && isset($_GET['id
 // Récupérer tous les produits pour affichage
 // ------------------------
 $produits = $produitModel->getAll();
+
+// ------------------------
+// Affichage PUBLIC : Catalogue produits + recherche
+// ------------------------
+if (isset($_GET['page']) && $_GET['page'] === 'catalogue') {
+    $search = $_GET['search'] ?? null;
+
+    if ($search) {
+        $produits = $produitModel->search($search); // méthode à ajouter dans Produit.php
+    } else {
+        $produits = $produitModel->getAll();
+    }
+
+    include __DIR__ . "/../views/public/produits.php";
+    exit;
+}
