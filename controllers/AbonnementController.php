@@ -1,6 +1,7 @@
 <?php
-require_once 'models/Abonnement.php';
-require_once 'models/PaiementAbonnement.php';
+require_once __DIR__ . '/../models/Abonnement.php';
+require_once __DIR__ . '/../models/PaiementAbonnement.php';
+
 
 class AbonnementController {
     private $pdo;

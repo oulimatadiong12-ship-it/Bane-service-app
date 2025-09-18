@@ -1,11 +1,14 @@
 <?php
-// Affichage de la liste des abonnements
-if (!isset($controller)) {
-    require_once __DIR__ . '/../../controllers/AbonnementController.php';
-    $controller = new AbonnementController($someArgument);
-}
+require_once __DIR__ . '/../../db/connexion.php';
+require_once __DIR__ . '/../../controllers/AbonnementController.php';
+
+// Créer le contrôleur avec la connexion PDO
+$controller = new AbonnementController($pdo);
+
+// Récupérer la liste des abonnements
 $abonnements = $controller->liste();
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
