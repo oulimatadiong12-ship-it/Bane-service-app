@@ -1,22 +1,26 @@
 <?php
-class PaiementAbonnement {
-    private $id;
-    private $abonnement_id;
-    private $montant;
-    private $date_paiement;
+// models/PaiementAbonnement.php
 
-    public function __construct($abonnement_id, $montant, $date_paiement) {
-        $this->abonnement_id = $abonnement_id;
-        $this->montant = $montant;
-        $this->date_paiement = $date_paiement;
+class PaiementAbonnement {
+    private $db;
+
+    public function __construct($db) {
+        $this->db = $db;
     }
 
-    // Getters
-    public function getId() { return $this->id; }
-    public function getAbonnementId() { return $this->abonnement_id; }
-    public function getMontant() { return $this->montant; }
-    public function getDatePaiement() { return $this->date_paiement; }
+    // Ajouter un paiement pour un abonnement
+    public function create($abonnement_id, $montant, $date_paiement) {
+        $sql = "INSERT INTO paiementabonnement (abonnement_id, montant, date_paiement) VALUES (?, ?, ?)";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([$abonnement_id, $montant, $date_paiement]);
+    }
 
-    // Setter 
-    public function setId($id) { $this->id = $id; }
+    // Récupérer les paiements d’un abonnement
+    public function getByAbonnement($abonnement_id) {
+        $sql = "SELECT * FROM paiementabonnement WHERE abonnement_id=? ORDER BY date_paiement DESC";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$abonnement_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
+?>
