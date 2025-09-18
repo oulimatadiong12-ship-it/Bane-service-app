@@ -1,15 +1,15 @@
 <?php
 // includes/navbar.php
-session_start();
-require_once __DIR__ . "/../auth.php";   // pour isLoggedIn(), isAdmin(), isTechnicien(), isClient(), isAbonne()
+// Démarrer la session si elle n'est pas déjà démarrée
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-/**
- *  menu en fonction du rôle
- */
+require_once __DIR__ . "/auth.php";
+
 function getMenuByRole() {
-    // Menu public (toujours visible)
     $menu = [
-        ["Accueil", "/accueil.php"],
+        ["Accueil", "/index.php"],
         ["Produits", "/produits.php"],
         ["Services", "/service.php"],
         ["Promotions", "/promotions.php"],
@@ -18,10 +18,8 @@ function getMenuByRole() {
     ];
 
     if (!isLoggedIn()) {
-        // Visiteur non connecté → Connexion
         $menu[] = ["Connexion", "/login.php"];
     } elseif (isAdmin()) {
-        // Menu admin
         $menu = array_merge($menu, [
             ["Dashboard", "/views/admin/dashboard.php"],
             ["Gestion Produits", "/views/admin/produits.php"],
@@ -33,7 +31,6 @@ function getMenuByRole() {
             ["Déconnexion", "/logout.php"]
         ]);
     } elseif (isTechnicien()) {
-        // Menu technicien
         $menu = array_merge($menu, [
             ["Dashboard Technicien", "/views/technicien/dashboard.php"],
             ["Rendez-vous planifiés", "/views/technicien/rendezvous.php"],
@@ -41,7 +38,6 @@ function getMenuByRole() {
             ["Déconnexion", "/logout.php"]
         ]);
     } elseif (isClient()) {
-        // Menu client simple
         $menu = array_merge($menu, [
             ["Dashboard Client", "/views/client/dashboard.php"],
             ["Produits & Commandes", "/views/client/commandes.php"],
@@ -51,7 +47,6 @@ function getMenuByRole() {
             ["Déconnexion", "/logout.php"]
         ]);
     } elseif (isAbonne()) {
-        // Menu abonné Canal+
         $menu = array_merge($menu, [
             ["Dashboard Abonné", "/views/abonne/dashboard.php"],
             ["Mes Abonnements", "/views/abonne/abonnements.php"],
@@ -70,7 +65,9 @@ function renderNavbar() {
     $menu = getMenuByRole();
     echo "<nav><ul>";
     foreach ($menu as $item) {
-        echo "<li><a href=\"{$item[1]}\">{$item[0]}</a></li>";
+        $title = htmlspecialchars($item[0], ENT_QUOTES, 'UTF-8');
+        $link  = htmlspecialchars($item[1], ENT_QUOTES, 'UTF-8');
+        echo "<li><a href=\"{$link}\">{$title}</a></li>";
     }
     echo "</ul></nav>";
 }
