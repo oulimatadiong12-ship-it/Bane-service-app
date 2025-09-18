@@ -1,6 +1,4 @@
-
 -- SCHÉMA BASE DE DONNÉES - BANE SERVICE
-
 
 DROP DATABASE IF EXISTS bane_service;
 CREATE DATABASE bane_service
@@ -10,7 +8,6 @@ CREATE DATABASE bane_service
 USE bane_service;
 
 -- 1. Utilisateur
-
 CREATE TABLE Utilisateur (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(100) NOT NULL,
@@ -24,7 +21,6 @@ CREATE TABLE Utilisateur (
 ) ENGINE=InnoDB;
 
 -- 2. Abonnement
-
 CREATE TABLE Abonnement (
     id INT AUTO_INCREMENT PRIMARY KEY,
     utilisateur_id INT NOT NULL,
@@ -37,7 +33,6 @@ CREATE TABLE Abonnement (
 ) ENGINE=InnoDB;
 
 -- 3. PaiementAbonnement
-
 CREATE TABLE PaiementAbonnement (
     id INT AUTO_INCREMENT PRIMARY KEY,
     abonnement_id INT NOT NULL,
@@ -48,7 +43,6 @@ CREATE TABLE PaiementAbonnement (
 ) ENGINE=InnoDB;
 
 -- 4. Produit
-
 CREATE TABLE Produit (
     id INT AUTO_INCREMENT PRIMARY KEY,
     libelle VARCHAR(150) NOT NULL,
@@ -62,7 +56,6 @@ CREATE TABLE Produit (
 ) ENGINE=InnoDB;
 
 -- 5. Commande
-
 CREATE TABLE Commande (
     id INT AUTO_INCREMENT PRIMARY KEY,
     utilisateur_id INT NOT NULL,
@@ -73,7 +66,6 @@ CREATE TABLE Commande (
 ) ENGINE=InnoDB;
 
 -- 6. LigneCommande
-
 CREATE TABLE LigneCommande (
     id INT AUTO_INCREMENT PRIMARY KEY,
     commande_id INT NOT NULL,
@@ -85,7 +77,6 @@ CREATE TABLE LigneCommande (
 ) ENGINE=InnoDB;
 
 -- 7. Service
-
 CREATE TABLE Service (
     id INT AUTO_INCREMENT PRIMARY KEY,
     type VARCHAR(100) NOT NULL,
@@ -96,7 +87,6 @@ CREATE TABLE Service (
 ) ENGINE=InnoDB;
 
 -- 8. RendezVous
-
 CREATE TABLE RendezVous (
     id INT AUTO_INCREMENT PRIMARY KEY,
     client_id INT NOT NULL,
@@ -112,7 +102,6 @@ CREATE TABLE RendezVous (
 ) ENGINE=InnoDB;
 
 -- 9. Intervention
-
 CREATE TABLE Intervention (
     id INT AUTO_INCREMENT PRIMARY KEY,
     rendezvous_id INT NOT NULL,
@@ -124,7 +113,6 @@ CREATE TABLE Intervention (
 ) ENGINE=InnoDB;
 
 -- 10. Transaction
-
 CREATE TABLE Transaction (
     id INT AUTO_INCREMENT PRIMARY KEY,
     type ENUM('OM','Wave','Espèces') NOT NULL,
@@ -140,7 +128,6 @@ CREATE TABLE Transaction (
 ) ENGINE=InnoDB;
 
 -- 11. Promotion
-
 CREATE TABLE Promotion (
     id INT AUTO_INCREMENT PRIMARY KEY,
     titre VARCHAR(150) NOT NULL,
@@ -151,4 +138,3 @@ CREATE TABLE Promotion (
     date_fin DATE NOT NULL,
     statut ENUM('active','inactive') DEFAULT 'active'
 ) ENGINE=InnoDB;
-
