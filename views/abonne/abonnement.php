@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__ . '/../../controllers/AbonnementController.php';
+require_once __DIR__ . '/../../includes/header.php';
+require_once __DIR__ . '/../../includes/navbar.php';
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -52,3 +54,4 @@ require_once __DIR__ . '/../../controllers/AbonnementController.php';
     <?php endif; ?>
 </body>
 </html>
+<?php require_once __DIR__ . '/../../includes/footer.php'; ?>

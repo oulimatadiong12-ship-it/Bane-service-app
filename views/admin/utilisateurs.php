@@ -3,6 +3,8 @@
 session_start();
 require_once __DIR__ . "/../../models/Utilisateur.php";
 require_once __DIR__ . "/../../db/connexion.php";
+require_once __DIR__ . '/../../includes/header.php';
+require_once __DIR__ . '/../../includes/navbar.php';
 
 $utilisateurModel = new Utilisateur($pdo);
 $users = $utilisateurModel->getAll();
@@ -61,3 +63,4 @@ $users = $utilisateurModel->getAll();
     </form>
 </body>
 </html>
+<?php require_once __DIR__ . '/../../includes/footer.php'; ?>
