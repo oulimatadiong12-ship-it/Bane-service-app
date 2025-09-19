@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../controllers/AbonnementController.php'; // Adapter le chemin
+require_once __DIR__ . '/../../controllers/AbonnementController.php'; // 
 ?>
 <!DOCTYPE html>
 <html lang="fr">
