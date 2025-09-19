@@ -1,41 +1,44 @@
 <?php
-require_once 'models/Abonnement.php';
-require_once 'models/PaiementAbonnement.php';
+require_once __DIR__ . "/../db/connexion.php";
+require_once __DIR__ . '/../models/Abonnement.php';
+require_once __DIR__ . '/../models/PaiementAbonnement.php';
 
-class AbonnementController {
+$abonnementModel = new Abonnement($pdo);
+$paiementModel = new PaiementAbonnement($pdo);
 
-    public function ajouter($client_id, $date_debut, $date_fin) {
-        $abonnement = new Abonnement($client_id, $date_debut, $date_fin);
-        // Ici tu feras l’insertion dans la base de données
-        return $abonnement;
-    }
+// Ajouter un abonnement
+if (isset($_POST['action']) && $_POST['action'] === 'ajouter') {
+    $abonnementModel->create(
+        $_POST['client_id'],
+        $_POST['formule'] ?? 'Canal+ Basique',
+        $_POST['prix'] ?? 5000,
+        $_POST['date_debut'],
+        $_POST['date_fin']
+    );
+    header("Location: ../views/admin/abonnements.php");
+    exit;
+}
 
-    public function renouveler($abonnement, $nouvelle_date_fin) {
-        $abonnement->setStatut("actif");
-        // Mettre à jour dans la BD
-        return $abonnement;
-    }
+// Renouveler un abonnement
+if (isset($_POST['action']) && $_POST['action'] === 'renouveler') {
+    $abonnementModel->renew($_POST['abonnement_id'], $_POST['nouvelle_date_fin']);
+    header("Location: ../views/admin/abonnements.php");
+    exit;
+}
 
-    public function suspendre($abonnement) {
-        $abonnement->setStatut("suspendu");
-        // Mettre à jour dans la BD
-        return $abonnement;
-    }
+// Suspendre un abonnement
+if (isset($_POST['action']) && $_POST['action'] === 'suspendre') {
+    $abonnementModel->suspend($_POST['abonnement_id']);
+    header("Location: ../views/admin/abonnements.php");
+    exit;
+}
 
-    public function payer($abonnement_id, $montant) {
-        $paiement = new PaiementAbonnement($abonnement_id, $montant, date("Y-m-d"));
-        // Sauvegarder en BD
-        return $paiement;
-    }
+// Liste des abonnements pour affichage
+$abonnements = $abonnementModel->getAll();
 
-    public function liste() {
-        // Exemple avec PDO, à adapter selon ta structure
-        $pdo = new PDO('mysql:host=localhost;dbname=ta_base', 'user', 'password');
-        $sql = "SELECT a.id, a.formule, a.prix, a.date_debut, a.date_fin, a.statut, 
-                       u.nom, u.prenom
-                FROM abonnements a
-                JOIN utilisateurs u ON a.utilisateur_id = u.id";
-        $stmt = $pdo->query($sql);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+// Supprimer un abonnement
+if (isset($_POST['action']) && $_POST['action'] === 'supprimer') {
+    $abonnementModel->delete($_POST['abonnement_id']);
+    header("Location: ../views/admin/abonnements.php");
+    exit;
 }

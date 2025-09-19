@@ -1,24 +1,51 @@
 <?php
-class Abonnement {
-    private $id;
-    private $client_id;
-    private $date_debut;
-    private $date_fin;
-    private $statut; // actif, suspendu, expiré
 
-    public function __construct($client_id, $date_debut, $date_fin, $statut = "actif") {
-        $this->client_id = $client_id;
-        $this->date_debut = $date_debut;
-        $this->date_fin = $date_fin;
-        $this->statut = $statut;
+class Abonnement {
+    private $db;
+
+    public function __construct($db) {
+        $this->db = $db;
     }
 
-    // Getters et setters
-    public function getId() { return $this->id; }
-    public function getClientId() { return $this->client_id; }
-    public function getDateDebut() { return $this->date_debut; }
-    public function getDateFin() { return $this->date_fin; }
-    public function getStatut() { return $this->statut; }
+    // Récupérer tous les abonnements avec infos utilisateur (soft delete)
+    public function getAll() {
+        $sql = "SELECT a.id, a.formule, a.prix, a.date_debut, a.date_fin, a.statut, u.nom, u.prenom
+            FROM abonnement a
+            JOIN utilisateur u ON a.utilisateur_id = u.id
+            WHERE a.statut != 'supprimé'
+            ORDER BY a.date_debut DESC";
+       return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    }
 
-    public function setStatut($statut) { $this->statut = $statut; }
+
+    // Ajouter un abonnement
+    public function create($utilisateur_id, $formule, $prix, $date_debut, $date_fin) {
+        $sql = "INSERT INTO abonnement (utilisateur_id, formule, prix, date_debut, date_fin, statut) 
+                VALUES (?, ?, ?, ?, ?, 'actif')";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([$utilisateur_id, $formule, $prix, $date_debut, $date_fin]);
+    }
+
+    // Renouveler un abonnement
+    public function renew($id, $nouvelle_date_fin) {
+        $sql = "UPDATE abonnement SET date_fin = ?, statut='actif' WHERE id=?";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([$nouvelle_date_fin, $id]);
+    }
+
+    // Suspendre un abonnement
+    public function suspend($id) {
+        $sql = "UPDATE abonnement SET statut='suspendu' WHERE id=?";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([$id]);
+    }
+
+    // Supprimer un abonnement
+    public function delete($id) {
+    $sql = "UPDATE abonnement SET statut = 'supprimé' WHERE id = ?";
+    $stmt = $this->db->prepare($sql);
+    return $stmt->execute([$id]);
 }
+
+}
+?>

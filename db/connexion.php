@@ -1,5 +1,4 @@
 <?php
-// db/connexion.php
 
 $host = "localhost";
 $dbname = "bane_service";
