@@ -19,6 +19,13 @@ class Utilisateur {
         $stmt->execute(['email' => $email]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+         
+     // Récupérer un utilisateur par ID
+    public function getById($id) {
+        $stmt = $this->pdo->prepare("SELECT * FROM utilisateur WHERE id = :id LIMIT 1");
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
     public function add($nom, $email, $password, $role = "client") {
         $hash = password_hash($password, PASSWORD_BCRYPT);
@@ -29,6 +36,21 @@ class Utilisateur {
             'email' => $email,
             'password' => $hash,
             'role' => $role
+        ]);
+    }
+
+    // Mettre à jour le profil d'un utilisateur
+    public function update($id, $nom, $prenom, $email, $telephone, $adresse) {
+        $stmt = $this->pdo->prepare("UPDATE utilisateur 
+                                     SET nom = :nom, prenom = :prenom, email = :email, telephone = :telephone, adresse = :adresse 
+                                     WHERE id = :id");
+        return $stmt->execute([
+            'nom' => $nom,
+            'prenom' => $prenom,
+            'email' => $email,
+            'telephone' => $telephone,
+            'adresse' => $adresse,
+            'id' => $id
         ]);
     }
 
