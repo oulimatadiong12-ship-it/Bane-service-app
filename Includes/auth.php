@@ -22,6 +22,7 @@ function isAbonne() {
     return (isLoggedIn() && $_SESSION['user']['role'] === 'abonne');
 }
 
+
 // Si on veut protéger une page :
 function requireLogin() {
     if (!isLoggedIn()) {
