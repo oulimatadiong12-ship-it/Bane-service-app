@@ -54,3 +54,4 @@ require_once __DIR__ . '/../../includes/navbar.php';
     <?php endif; ?>
 </body>
 </html>
+<?php require_once __DIR__ . '/../../includes/footer.php'; ?>
