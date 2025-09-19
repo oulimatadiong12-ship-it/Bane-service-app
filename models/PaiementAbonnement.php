@@ -1,6 +1,4 @@
 <?php
-// models/PaiementAbonnement.php
-
 class PaiementAbonnement {
     private $db;
 
@@ -20,6 +18,18 @@ class PaiementAbonnement {
         $sql = "SELECT * FROM paiementabonnement WHERE abonnement_id=? ORDER BY date_paiement DESC";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$abonnement_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Récupérer tous les paiements d'un utilisateur (via ses abonnements)
+    public function getByUser($userId) {
+        $sql = "SELECT p.* 
+                FROM paiementabonnement p
+                JOIN abonnement a ON p.abonnement_id = a.id
+                WHERE a.utilisateur_id = ?
+                ORDER BY p.date_paiement DESC";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
