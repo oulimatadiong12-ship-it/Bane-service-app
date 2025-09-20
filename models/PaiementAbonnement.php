@@ -6,30 +6,35 @@ class PaiementAbonnement {
         $this->db = $db;
     }
 
-    // Ajouter un paiement pour un abonnement
-    public function create($abonnement_id, $montant, $date_paiement) {
-        $sql = "INSERT INTO paiementabonnement (abonnement_id, montant, date_paiement) VALUES (?, ?, ?)";
-        $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$abonnement_id, $montant, $date_paiement]);
+    // Ajouter un paiement
+    public function create($abonnement_id, $montant, $date_paiement, $prochain_paiement = null) {
+        $stmt = $this->db->prepare("INSERT INTO PaiementAbonnement (abonnement_id, montant, date_paiement, prochain_paiement)
+                                    VALUES (:aboId, :montant, :datePaiement, :prochainPaiement)");
+        return $stmt->execute([
+            'aboId' => $abonnement_id,
+            'montant' => $montant,
+            'datePaiement' => $date_paiement,
+            'prochainPaiement' => $prochain_paiement
+        ]);
     }
 
     // Récupérer les paiements d’un abonnement
     public function getByAbonnement($abonnement_id) {
-        $sql = "SELECT * FROM paiementabonnement WHERE abonnement_id=? ORDER BY date_paiement DESC";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([$abonnement_id]);
+        $stmt = $this->db->prepare("SELECT * FROM PaiementAbonnement 
+                                    WHERE abonnement_id = :aboId
+                                    ORDER BY date_paiement DESC");
+        $stmt->execute(['aboId' => $abonnement_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Récupérer tous les paiements d'un utilisateur (via ses abonnements)
+    // Récupérer tous les paiements d’un utilisateur via ses abonnements
     public function getByUser($userId) {
-        $sql = "SELECT p.* 
-                FROM paiementabonnement p
-                JOIN abonnement a ON p.abonnement_id = a.id
-                WHERE a.utilisateur_id = ?
-                ORDER BY p.date_paiement DESC";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([$userId]);
+        $stmt = $this->db->prepare("SELECT p.* 
+                                    FROM PaiementAbonnement p
+                                    JOIN Abonnement a ON p.abonnement_id = a.id
+                                    WHERE a.utilisateur_id = :userId
+                                    ORDER BY p.date_paiement DESC");
+        $stmt->execute(['userId' => $userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

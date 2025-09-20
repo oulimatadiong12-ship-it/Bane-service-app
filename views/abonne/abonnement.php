@@ -1,19 +1,12 @@
 <?php
-require_once __DIR__ . '/../../controllers/AbonnementController.php';
 require_once __DIR__ . '/../../includes/header.php';
 require_once __DIR__ . '/../../includes/navbar.php';
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Mes Abonnements</title>
-    <link rel="stylesheet" href="../../assets/css/style.css">
-</head>
-<body>
+
+<div class="container">
     <h1>Mes Abonnements</h1>
 
-    <?php if (!empty($abonnementsHistorique)): ?>
+    <?php if (!empty($abonnementsHistorique) && is_array($abonnementsHistorique)): ?>
         <table border="1" cellpadding="5">
             <thead>
                 <tr>
@@ -35,7 +28,7 @@ require_once __DIR__ . '/../../includes/navbar.php';
                         <td><?= htmlspecialchars($abo['statut']) ?></td>
                         <td>
                             <?php if ($abo['statut'] === 'actif'): ?>
-                                <form method="POST" action="../../controllers/abonneController.php">
+                                <form method="POST" action="../../controllers/AbonneController.php">
                                     <input type="hidden" name="action" value="renouveler">
                                     <input type="hidden" name="abonnement_id" value="<?= $abo['id'] ?>">
                                     <input type="date" name="nouvelle_date_fin" required>
@@ -52,6 +45,6 @@ require_once __DIR__ . '/../../includes/navbar.php';
     <?php else: ?>
         <p>Aucun abonnement trouvé</p>
     <?php endif; ?>
-</body>
-</html>
+</div>
+
 <?php require_once __DIR__ . '/../../includes/footer.php'; ?>

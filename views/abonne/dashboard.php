@@ -1,20 +1,13 @@
 <?php
-require_once __DIR__ . '/../../controllers/AbonnementController.php'; 
 require_once __DIR__ . '/../../includes/header.php';
 require_once __DIR__ . '/../../includes/navbar.php';
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Dashboard Abonné</title>
-    <link rel="stylesheet" href="../../assets/css/style.css">
-</head>
-<body>
-    <h1>Bonjour, <?= htmlspecialchars($profil['nom']) ?> <?= htmlspecialchars($profil['prenom']) ?></h1>
+
+<div class="container">
+    <h1>Bonjour, <?= htmlspecialchars($profil['nom'] ?? '') ?> <?= htmlspecialchars($profil['prenom'] ?? '') ?></h1>
 
     <h2>Abonnement Actif</h2>
-    <?php if ($abonnement): ?>
+    <?php if (!empty($abonnement)): ?>
         <ul>
             <li>Formule : <?= htmlspecialchars($abonnement['formule']) ?></li>
             <li>Prix : <?= htmlspecialchars($abonnement['prix']) ?> FCFA</li>
@@ -27,7 +20,7 @@ require_once __DIR__ . '/../../includes/navbar.php';
     <?php endif; ?>
 
     <h2>Derniers Paiements</h2>
-    <?php if (!empty($paiements)): ?>
+    <?php if (!empty($paiements) && is_array($paiements)): ?>
         <table border="1" cellpadding="5">
             <thead>
                 <tr>
@@ -49,6 +42,6 @@ require_once __DIR__ . '/../../includes/navbar.php';
     <?php else: ?>
         <p>Aucun paiement enregistré</p>
     <?php endif; ?>
-</body>
-</html>
+</div>
+
 <?php require_once __DIR__ . '/../../includes/footer.php'; ?>
