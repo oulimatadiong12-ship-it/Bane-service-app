@@ -1,5 +1,4 @@
 <?php
-// controllers/ProduitController.php
 require_once __DIR__ . "/../db/connexion.php";
 require_once __DIR__ . "/../models/Produit.php";
 
@@ -13,7 +12,6 @@ if (isset($_POST['action']) && $_POST['action'] === 'ajouter') {
     $prix = $_POST['prix'];
     $description = $_POST['description'];
 
-    // Gestion image
     $image = null;
     if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
         $image = uniqid() . '_' . $_FILES['image']['name'];
@@ -34,8 +32,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'modifier' && isset($_POST['
     $prix = $_POST['prix'];
     $description = $_POST['description'];
 
-    // Gestion image
-    $image = $_POST['current_image'] ?? null; // conserver l'image actuelle si pas de nouvelle
+    $image = $_POST['current_image'] ?? null;
     if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
         $image = uniqid() . '_' . $_FILES['image']['name'];
         move_uploaded_file($_FILES['image']['tmp_name'], __DIR__ . "/../uploads/produits/" . $image);
@@ -58,18 +55,15 @@ if (isset($_GET['action']) && $_GET['action'] === 'supprimer' && isset($_GET['id
 // ------------------------
 // Affichage PUBLIC : Catalogue produits
 // ------------------------
+$search = $_GET['search'] ?? null;
 
-// Toujours récupérer les produits pour affichage
-$produits = $produitModel->getAll();
-
-// Si recherche
-if (isset($_GET['page']) && $_GET['page'] === 'catalogue') {
-    $search = $_GET['search'] ?? null;
-
-    if ($search) {
-        $produits = $produitModel->search($search); // méthode search() dans Produit.php
-    }
-
-    include __DIR__ . "/../views/public/produits.php";
-    exit;
+if (!empty($search)) {
+    $produits = $produitModel->search($search);
+} else {
+    $produits = $produitModel->getAll(); // récupère tous les produits par défaut
 }
+
+// ------------------------
+// Page catalogue publique
+// ------------------------
+include __DIR__ . "/../views/public/produits.php";
