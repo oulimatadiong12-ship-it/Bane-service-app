@@ -1,15 +1,20 @@
 <?php
 session_start();
 require_once __DIR__ . '/../db/connexion.php';
-require_once __DIR__ . '/../models/Service.php';
+require_once __DIR__ . '/../models/Abonnement.php';
+require_once __DIR__ . '/../models/PaiementAbonnement.php';
+require_once __DIR__ . '/../models/Utilisateur.php';
 
-// Vérifier que seul un admin peut gérer les services
-if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'abonne') {
     header("Location: ../views/login.php");
     exit;
 }
 
-$serviceModel = new Service($pdo);
+$userId = $_SESSION['user']['id'];
+
+$abonnementModel = new Abonnement($pdo);
+$paiementModel = new PaiementAbonnement($pdo);
+$userModel = new Utilisateur($pdo);
 
 // -------------------------
 // Actions POST
@@ -18,47 +23,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
 
     switch ($action) {
-        case 'ajouter':
-            $type = $_POST['type'] ?? '';
-            $prix = $_POST['prix'] ?? 0;
-            $duree = $_POST['duree_moyenne'] ?? '';
-            $desc = $_POST['description'] ?? '';
-            $comp = $_POST['competences_requises'] ?? '';
-
-            if (!empty($type) && !empty($prix)) {
-                $serviceModel->create($type, $prix, $duree, $desc, $comp);
+        case 'renouveler':
+            $abonnement = $abonnementModel->getActiveByUser($userId);
+            if ($abonnement && !empty($_POST['nouvelle_date_fin'])) {
+                $abonnementModel->renew($abonnement['id'], $_POST['nouvelle_date_fin']);
             }
-            header("Location: ../views/admin/services.php");
+            header("Location: ../views/abonne/abonnement.php");
             exit;
 
-        case 'modifier':
-            $id = $_POST['id'] ?? null;
-            $type = $_POST['type'] ?? '';
-            $prix = $_POST['prix'] ?? 0;
-            $duree = $_POST['duree_moyenne'] ?? '';
-            $desc = $_POST['description'] ?? '';
-            $comp = $_POST['competences_requises'] ?? '';
+        case 'update_profil':
+            $profil = $userModel->getById($userId);
+            $nom = $_POST['nom'] ?? $profil['nom'];
+            $prenom = $_POST['prenom'] ?? $profil['prenom'];
+            $email = $_POST['email'] ?? $profil['email'];
+            $telephone = $_POST['telephone'] ?? $profil['telephone'];
+            $adresse = $_POST['adresse'] ?? $profil['adresse'];
 
-            if ($id) {
-                $serviceModel->update($id, $type, $prix, $duree, $desc, $comp);
-            }
-            header("Location: ../views/admin/services.php");
-            exit;
-
-        case 'supprimer':
-            $id = $_POST['id'] ?? null;
-            if ($id) {
-                $serviceModel->delete($id);
-            }
-            header("Location: ../views/admin/services.php");
+            $userModel->update($userId, $nom, $prenom, $email, $telephone, $adresse);
+            header("Location: ../views/abonne/profil.php");
             exit;
     }
 }
 
 // -------------------------
-// Préparer les données pour la vue
+// Préparer les données pour les vues
 // -------------------------
-$services = $serviceModel->getAll();
+$abonnement = $abonnementModel->getActiveByUser($userId);
+$abonnementsHistorique = $abonnementModel->getByUser($userId);
+$paiements = $paiementModel->getByUser($userId);
+$profil = $userModel->getById($userId);
 
-// Inclure la vue
-require_once __DIR__ . '/../views/admin/services.php';
+// Inclure la vue selon paramètre GET
+$view = $_GET['view'] ?? 'dashboard';
+
+switch ($view) {
+    case 'abonnement':
+        require_once __DIR__ . '/../views/abonne/abonnement.php';
+        break;
+    case 'profil':
+        require_once __DIR__ . '/../views/abonne/profil.php';
+        break;
+    default:
+        require_once __DIR__ . '/../views/abonne/dashboard.php';
+        break;
+}
+?>
