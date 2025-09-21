@@ -37,9 +37,9 @@ class Abonnement {
     // Ajouter un abonnement
     public function create($utilisateur_id, $formule, $prix, $date_debut, $date_fin) {
         $stmt = $this->db->prepare("INSERT INTO Abonnement (utilisateur_id, formule, prix, date_debut, date_fin, statut)
-                                    VALUES (:uid, :formule, :prix, :debut, :fin, 'actif')");
+                                    VALUES (:utilisateur_id, :formule, :prix, :debut, :fin, 'actif')");
         return $stmt->execute([
-            'uid' => $utilisateur_id,
+            ':utilisateur_id' => $utilisateur_id,
             'formule' => $formule,
             'prix' => $prix,
             'debut' => $date_debut,
