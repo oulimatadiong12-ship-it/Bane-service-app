@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__. '/includes/header.php';
+require_once __DIR__ . '/../../includes/header.php';
+require_once __DIR__ . '/../../includes/navbar.php';
 ?>
 
 <h1>Contactez-nous</h1>
@@ -16,6 +17,4 @@ require_once __DIR__. '/includes/header.php';
     <button type="submit">Envoyer</button>
 </form>
 
-<?php
-require_once __DIR__ . '/includes/footer.php';
-?>
+<?php require_once __DIR__ . '/../../includes/footer.php'; ?>
