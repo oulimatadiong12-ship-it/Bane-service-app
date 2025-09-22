@@ -60,12 +60,12 @@ require_once __DIR__ . '/../../includes/navbar.php';
                 <td><?= htmlspecialchars($s['competences_requises']) ?></td>
                 <td>
                     <!-- Modifier et supprimer -->
-                    <form method="POST" action="../../controllers/ServiceController.php" style="display:inline">
+                    <form method="POST" action="<?= BASE_URL ?>controllers/ServiceController.php" style="display:inline">
                         <input type="hidden" name="action" value="modifier">
                         <input type="hidden" name="id" value="<?= $s['id'] ?>">
                         <button type="submit">Modifier</button>
                     </form>
-                    <form method="POST" action="../../controllers/ServiceController.php" style="display:inline" onsubmit="return confirm('Voulez-vous supprimer ce service ?');">
+                    <form method="POST" action="<?= BASE_URL ?>controllers/ServiceController.php" style="display:inline" onsubmit="return confirm('Voulez-vous supprimer ce service ?');">
                         <input type="hidden" name="action" value="supprimer">
                         <input type="hidden" name="id" value="<?= $s['id'] ?>">
                         <button type="submit">Supprimer</button>

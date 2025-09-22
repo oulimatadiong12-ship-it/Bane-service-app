@@ -3,10 +3,10 @@ session_start();
 require_once __DIR__ . '/../db/connexion.php';
 require_once __DIR__ . '/../models/Intervention.php';
 require_once __DIR__ . '/../models/RendezVous.php';
-
+require_once __DIR__ . '/../../includes/navbar.php';
 // Vérification rôle technicien
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'technicien') {
-    header("Location: ../views/login.php");
+    header("Location: " . BASE_URL . "/views/login.php");
     exit;
 }
 
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             break;
     }
-    header("Location: ../views/technicien/interventions.php");
+    header("Location: " . BASE_URL . "/views/technicien/interventions.php");
     exit;
 }
 

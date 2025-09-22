@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../includes/navbar.php';
 <div class="container">
     <h1>Mon Profil</h1>
 
-    <form action="../../controllers/AbonneController.php" method="POST">
+    <form action="<?= BASE_URL ?>controllers/AbonneController.php" method="POST">
         <label>Nom :</label>
         <input type="text" name="nom" value="<?= htmlspecialchars($profil['nom'] ?? '') ?>" required><br><br>
 
