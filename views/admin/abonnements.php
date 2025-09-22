@@ -9,7 +9,7 @@ require_once __DIR__ . '/../../includes/navbar.php';
 
     <!-- Formulaire ajout abonnement -->
     <h2>Ajouter un abonnement</h2>
-    <form method="post" action="../../controllers/AbonnementAdminController.php">
+    <form method="post" action="<?= BASE_URL ?>controllers/AbonnementAdminController.php">
         <input type="hidden" name="action" value="ajouter">
         <div>
             <label>ID Client :</label>

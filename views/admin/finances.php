@@ -11,7 +11,7 @@ require_once __DIR__ . '/../../includes/navbar.php';
     <hr>
 
     <h2>Ajouter une transaction</h2>
-    <form method="POST" action="../../controllers/TransactionController.php">
+    <form method="POST" action="<?= BASE_URL ?>controllers/TransactionController.php">
         <input type="hidden" name="action" value="ajouter">
 
         <div>

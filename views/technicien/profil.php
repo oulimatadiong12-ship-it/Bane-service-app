@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../includes/navbar.php';
 <div class="container">
     <h1>Profil Technicien</h1>
 
-    <form method="POST" action="../../controllers/UserController.php">
+    <form method="POST" action="<?= BASE_URL ?>controllers/UserController.php">
         <input type="hidden" name="action" value="update_profil">
 
         <div>
