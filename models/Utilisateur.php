@@ -60,5 +60,15 @@ class Utilisateur {
         $stmt = $this->db->prepare("DELETE FROM Utilisateur WHERE id = :id");
         return $stmt->execute(['id' => $id]);
     }
+
+    public function getAllClients() {
+    $stmt = $this->db->query("
+        SELECT id, nom, prenom, email, telephone, role 
+        FROM Utilisateur 
+        WHERE role='client' OR role='abonne'
+    ");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }
 ?>
