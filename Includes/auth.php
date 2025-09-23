@@ -1,6 +1,6 @@
 <?php
 // includes/auth.php
-session_start();
+
 
 function isLoggedIn() {
     return isset($_SESSION['user']);
@@ -17,6 +17,11 @@ function isTechnicien() {
 function isClient() {
     return (isLoggedIn() && $_SESSION['user']['role'] === 'client');
 }
+
+function isAbonne() {
+    return (isLoggedIn() && $_SESSION['user']['role'] === 'abonne');
+}
+
 
 // Si on veut protéger une page :
 function requireLogin() {
