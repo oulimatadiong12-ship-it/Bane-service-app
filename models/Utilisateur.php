@@ -1,4 +1,3 @@
-
 <?php
 require_once __DIR__ . '/../db/connexion.php';
 
@@ -9,11 +8,10 @@ class Utilisateur {
         $this->pdo = $pdo;
     }
 
-    // Ajouter un utilisateur
     public function add($nom, $prenom, $email, $password, $role = 'admin') {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        $sql = "INSERT INTO Utilisateur (nom, prenom, email, password, role) 
+        $sql = "INSERT INTO Utilisateur (nom, prenom, email, password, role)
                 VALUES (:nom, :prenom, :email, :password, :role)";
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute([
