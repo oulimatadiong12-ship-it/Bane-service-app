@@ -6,7 +6,6 @@ require_once __DIR__ . '/../Includes/navbar.php';
 require_once __DIR__ . '/../models/Abonnement.php';
 require_once __DIR__ . '/../models/PaiementAbonnement.php';
 require_once __DIR__ . '/../models/Utilisateur.php';
-var_dump($_SESSION);
 
 
 
@@ -61,8 +60,6 @@ $abonnementsHistorique = $abonnementModel->getByUser($userId);
 $paiements = $paiementModel->getByUser($userId);
 $profil = $userModel->getById($userId);
 
-var_dump($paiements);
-var_dump($abonnementsHistorique);
 
 
 // Inclure la vue selon paramètre GET
