@@ -1,3 +1,4 @@
+
 <?php
 // includes/navbar.php
 
