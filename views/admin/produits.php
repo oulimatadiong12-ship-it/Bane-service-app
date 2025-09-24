@@ -3,11 +3,17 @@ require_once __DIR__ . "/../../db/connexion.php";
 require_once __DIR__ . "/../../models/Produit.php";
 
 if (!defined('BASE_URL')) {
-    define('BASE_URL', '/baneservice-app');
+    define('BASE_URL', 'http://localhost/Bane-service-app/');
 }
 
 $produitModel = new Produit($pdo);
-$produits = $produitModel->getAll();
+$produits = $produitModel->getAllproduits();
+
+// Gestion du formulaire en mode modification
+$editProduit = null;
+if (isset($_GET['edit'])) {
+    $editProduit = $produitModel->getproduitById($_GET['edit']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -16,52 +22,79 @@ $produits = $produitModel->getAll();
     <title>Gestion des Produits</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body class="bg-light">
 
 <div class="container my-5">
-    <!-- Titre principal -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="h3 text-primary fw-bold">Gestion des Produits</h1>
         <span class="badge bg-secondary"><?= count($produits) ?> produit(s)</span>
     </div>
 
-    <!-- Formulaire ajout produit -->
+    <!-- Formulaire ajout/modification -->
     <div class="card shadow-sm mb-5">
         <div class="card-header bg-primary text-white">
-            <i class="bi bi-plus-circle"></i> Ajouter un produit
+            <i class="bi bi-<?= $editProduit ? 'pencil-square' : 'plus-circle' ?>"></i>
+            <?= $editProduit ? 'Modifier le produit #' . $editProduit['id'] : 'Ajouter un produit' ?>
         </div>
         <div class="card-body">
-            <form action="<?= BASE_URL ?>/controllers/ProduitController.php" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="action" value="ajouter">
+            <form action="<?= BASE_URL ?>controllers/ProduitController.php" method="post">
+                <input type="hidden" name="action" value="<?= $editProduit ? 'modifier' : 'ajouter' ?>">
+                <?php if ($editProduit): ?>
+                    <input type="hidden" name="id" value="<?= $editProduit['id'] ?>">
+                <?php endif; ?>
 
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <label class="form-label">Nom :</label>
-                        <input type="text" name="nom" class="form-control" placeholder="Nom du produit" required>
+                        <label class="form-label">Libellé :</label>
+                        <input type="text" name="libelle" class="form-control" required
+                               value="<?= $editProduit ? htmlspecialchars($editProduit['libelle']) : '' ?>">
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Prix (CFA) :</label>
-                        <input type="number" step="0.01" name="prix" class="form-control" placeholder="0.00" required>
+                        <label class="form-label">Catégorie :</label>
+                        <input type="text" name="categorie" class="form-control"
+                               value="<?= $editProduit ? htmlspecialchars($editProduit['categorie']) : '' ?>">
                     </div>
-                </div>
-
-                <div class="mt-3">
-                    <label class="form-label">Description :</label>
-                    <textarea name="description" class="form-control" rows="3" placeholder="Décrivez le produit..." required></textarea>
-                </div>
-
-                <div class="mt-3">
-                    <label class="form-label">Image :</label>
-                    <input type="file" name="image" class="form-control">
+                    <div class="col-md-6">
+                        <label class="form-label">Prix d'achat :</label>
+                        <input type="number" name="prixAchat" step="0.01" class="form-control" required
+                               value="<?= $editProduit ? $editProduit['prixAchat'] : '' ?>">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Prix de vente :</label>
+                        <input type="number" name="prixVente" step="0.01" class="form-control" required
+                               value="<?= $editProduit ? $editProduit['prixVente'] : '' ?>">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Stock :</label>
+                        <input type="number" name="stock" class="form-control"
+                               value="<?= $editProduit ? $editProduit['stock'] : '0' ?>">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Seuil d'alerte :</label>
+                        <input type="number" name="seuil_alerte" class="form-control"
+                               value="<?= $editProduit ? $editProduit['seuil_alerte'] : '5' ?>">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Fournisseur :</label>
+                        <input type="text" name="fournisseur" class="form-control"
+                               value="<?= $editProduit ? htmlspecialchars($editProduit['fournisseur']) : '' ?>">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Description :</label>
+                        <textarea name="description" class="form-control" rows="3" required><?= $editProduit ? htmlspecialchars($editProduit['description']) : '' ?></textarea>
+                    </div>
                 </div>
 
                 <div class="mt-4">
-                    <button type="submit" class="btn btn-success">
-                        <i class="bi bi-save"></i> Ajouter
+                    <button type="submit" class="btn btn-<?= $editProduit ? 'warning' : 'success' ?>">
+                        <i class="bi bi-check-circle"></i>
+                        <?= $editProduit ? 'Modifier' : 'Ajouter' ?>
                     </button>
+                    <?php if ($editProduit): ?>
+                        <a href="<?= BASE_URL ?>views/admin/produits.php" class="btn btn-secondary ms-2">Annuler</a>
+                    <?php endif; ?>
                 </div>
             </form>
         </div>
@@ -73,39 +106,38 @@ $produits = $produitModel->getAll();
         <table class="table table-hover table-bordered align-middle">
             <thead class="table-dark text-center">
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nom</th>
-                    <th scope="col">Prix</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Image</th>
-                    <th scope="col">Actions</th>
+                    <th>#</th>
+                    <th>Libellé</th>
+                    <th>Catégorie</th>
+                    <th>Prix Achat</th>
+                    <th>Prix Vente</th>
+                    <th>Stock</th>
+                    <th>Seuil</th>
+                    <th>Fournisseur</th>
+                    <th>Description</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <?php if (!empty($produits)): ?>
                     <?php foreach ($produits as $p): ?>
                         <tr>
-                            <td class="text-center fw-bold"><?= $p['id'] ?></td>
-                            <td><?= htmlspecialchars($p['nom']) ?></td>
-                            <td class="text-success fw-bold"><?= number_format($p['prix'], 2) ?> CFA</td>
+                            <td class="text-center"><?= $p['id'] ?></td>
+                            <td><?= htmlspecialchars($p['libelle']) ?></td>
+                            <td><?= htmlspecialchars($p['categorie']) ?></td>
+                            <td class="text-end"><?= number_format($p['prixAchat'], 2) ?> CFA</td>
+                            <td class="text-end"><?= number_format($p['prixVente'], 2) ?> CFA</td>
+                            <td class="text-center"><?= $p['stock'] ?></td>
+                            <td class="text-center"><?= $p['seuil_alerte'] ?></td>
+                            <td><?= htmlspecialchars($p['fournisseur']) ?></td>
                             <td><?= htmlspecialchars($p['description']) ?></td>
                             <td class="text-center">
-                                <?php if (!empty($p['image'])): ?>
-                                    <img src="<?= BASE_URL ?>/uploads/produits/<?= htmlspecialchars($p['image']) ?>" 
-                                         alt="Image produit" 
-                                         class="img-thumbnail shadow-sm" 
-                                         style="max-width: 80px;">
-                                <?php else: ?>
-                                    <span class="badge bg-secondary">Pas d'image</span>
-                                <?php endif; ?>
-                            </td>
-                            <td class="text-center">
-                                <a href="<?= BASE_URL ?>/views/admin/modifier_produit.php?id=<?= $p['id'] ?>" 
+                                <a href="<?= BASE_URL ?>views/admin/produits.php?edit=<?= $p['id'] ?>" 
                                    class="btn btn-sm btn-warning mb-1">
                                    <i class="bi bi-pencil-square"></i> Modifier
                                 </a>
-                                <a href="<?= BASE_URL ?>/controllers/ProduitController.php?action=supprimer&id=<?= $p['id'] ?>" 
-                                   class="btn btn-sm btn-danger" 
+                                <a href="<?= BASE_URL ?>controllers/ProduitController.php?action=supprimer&id=<?= $p['id'] ?>" 
+                                   class="btn btn-sm btn-danger"
                                    onclick="return confirm('Supprimer ce produit ?');">
                                    <i class="bi bi-trash"></i> Supprimer
                                 </a>
@@ -114,7 +146,7 @@ $produits = $produitModel->getAll();
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="6" class="text-center text-muted">Aucun produit trouvé.</td>
+                        <td colspan="10" class="text-center text-muted">Aucun produit enregistré.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
