@@ -72,3 +72,6 @@ function renderNavbar() {
     }
     echo "</ul></nav>";
 }
+
+renderNavbar()
+?>

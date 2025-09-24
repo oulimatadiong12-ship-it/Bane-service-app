@@ -4,6 +4,8 @@ require_once __DIR__ . '/../../includes/header.php';
 require_once __DIR__ . '/../../includes/navbar.php';
 ?>
 
+
+
 <div class="container">
     <h1>Gestion des abonnements Canal+</h1>
 
@@ -66,7 +68,7 @@ require_once __DIR__ . '/../../includes/navbar.php';
                     <td><?= htmlspecialchars($abo['statut']) ?></td>
                     <td>
                         <!-- Renouveler -->
-                        <form method="post" action="../../controllers/AbonnementAdminController.php" style="display:inline">
+                        <form method="post" action="<?= BASE_URL ?>controllers/AbonnementAdminController.php" style="display:inline">
                             <input type="hidden" name="action" value="renouveler">
                             <input type="hidden" name="abonnement_id" value="<?= $abo['id'] ?>">
                             <input type="date" name="nouvelle_date_fin" value="<?= date('Y-m-d', strtotime('+1 month')) ?>" required>
@@ -74,14 +76,14 @@ require_once __DIR__ . '/../../includes/navbar.php';
                         </form>
 
                         <!-- Suspendre -->
-                        <form method="post" action="../../controllers/AbonnementAdminController.php" style="display:inline">
+                        <form method="post" action="<?= BASE_URL ?>controllers/AbonnementAdminController.php" style="display:inline">
                             <input type="hidden" name="action" value="suspendre">
                             <input type="hidden" name="abonnement_id" value="<?= $abo['id'] ?>">
                             <button type="submit">Suspendre</button>
                         </form>
 
                         <!-- Supprimer -->
-                        <form method="post" action="../../controllers/AbonnementAdminController.php" style="display:inline" onsubmit="return confirm('Voulez-vous vraiment supprimer cet abonnement ?');">
+                        <form method="post" action=".<?= BASE_URL ?>controllers/AbonnementAdminController.php" style="display:inline" onsubmit="return confirm('Voulez-vous vraiment supprimer cet abonnement ?');">
                             <input type="hidden" name="action" value="supprimer">
                             <input type="hidden" name="abonnement_id" value="<?= $abo['id'] ?>">
                             <button type="submit">Supprimer</button>

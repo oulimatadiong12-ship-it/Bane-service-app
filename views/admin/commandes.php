@@ -1,8 +1,6 @@
 <?php
 // views/admin/commandes.php
-if (!defined('BASE_URL')) {
-    define('BASE_URL', '/baneservice-app');
-}
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">

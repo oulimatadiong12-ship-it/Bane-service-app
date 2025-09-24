@@ -14,7 +14,7 @@ class Utilisateur {
 
     // Récupérer un utilisateur par ID
     public function getById($id) {
-        $stmt = $this->db->prepare("SELECT * FROM Utilisateur WHERE id = :id LIMIT 1");
+        $stmt = $this->db->prepare("SELECT * FROM Utilisateur WHERE id = :id ");
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
