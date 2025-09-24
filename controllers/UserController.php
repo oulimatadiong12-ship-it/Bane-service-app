@@ -6,6 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 require_once __DIR__ . "/../models/Utilisateur.php";
 require_once __DIR__ . "/../db/connexion.php";
+require_once __DIR__ . '/../Includes/navbar.php';
 
 $utilisateurModel = new Utilisateur($pdo);
 
@@ -26,8 +27,25 @@ if ($action === "login" && $_SERVER['REQUEST_METHOD'] === "POST") {
             "email" => $user['email'],
             "role" => $user['role']
         ];
-        header("Location: /index.php");
-        exit;
+              
+                // Redirection selon rôle
+                    switch ($user['role']) {
+                        case 'admin':
+                            header('Location: '.BASE_URL . 'views/admin/dashboard.php');
+                            exit;
+                        case 'abonne':
+                            header('Location:'.BASE_URL . 'views/abonne/dashboard.php');
+                            exit;
+                        case 'client':
+                            header('Location:' .BASE_URL . 'views/client/dashboard.php');
+                            exit;
+                        case 'technicien':
+                            header('Location: '.BASE_URL . 'views/technicien/dashboard.php');
+                            exit;
+                        default:
+                            header('Location: '. BASE_URL . 'views/public/login.php');
+                        }
+                             exit;
     } else {
         $_SESSION['error'] = "Email ou mot de passe incorrect.";
         header("Location: /views/public/login.php");
