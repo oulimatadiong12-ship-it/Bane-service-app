@@ -4,54 +4,72 @@
 class Produit {
     private $db;
 
-    public function __construct($db) {
-        $this->db = $db;
+    public function __construct($db = null) {
+        if ($db) {
+            $this->db = $db;
+        } else {
+            require_once __DIR__ . '/../db/connexion.php';
+            $this->db = $pdo;
+        }
     }
 
     // Créer un produit
-    public function create($nom, $prix, $description, $image = null) {
-        $sql = "INSERT INTO produits (nom, prix, description, image) VALUES (?, ?, ?, ?)";
+    public function create($libelle, $categorie, $prixAchat, $prixVente, $stock, $seuilAlerte, $description, $fournisseur) {
+        $sql = "INSERT INTO Produit (libelle, categorie, prixAchat, prixVente, stock, seuil_alerte, description, fournisseur)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$nom, $prix, $description, $image]);
+        return $stmt->execute([
+            $libelle, $categorie, $prixAchat, $prixVente, $stock, $seuilAlerte, $description, $fournisseur
+        ]);
     }
 
     // Modifier un produit
-    public function update($id, $nom, $prix, $description, $image = null) {
-        $sql = "UPDATE produits SET nom=?, prix=?, description=?, image=? WHERE id=?";
+    public function update($id, $libelle, $categorie, $prixAchat, $prixVente, $stock, $seuilAlerte, $description, $fournisseur) {
+        $sql = "UPDATE Produit SET 
+                    libelle = ?, 
+                    categorie = ?, 
+                    prixAchat = ?, 
+                    prixVente = ?, 
+                    stock = ?, 
+                    seuil_alerte = ?, 
+                    description = ?, 
+                    fournisseur = ?
+                WHERE id = ?";
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$nom, $prix, $description, $image, $id]);
+        return $stmt->execute([
+            $libelle, $categorie, $prixAchat, $prixVente, $stock, $seuilAlerte, $description, $fournisseur, $id
+        ]);
     }
 
     // Supprimer un produit
     public function delete($id) {
-        $sql = "DELETE FROM produits WHERE id=?";
+        $sql = "DELETE FROM Produit WHERE id = ?";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([$id]);
     }
 
     // Récupérer tous les produits
-    public function getAll() {
-        $sql = "SELECT * FROM produits ORDER BY created_at DESC";
-        return $this->db->query($sql)->fetchAll();
+    public function getAllProduits() {
+        $sql = "SELECT * FROM Produit ORDER BY id DESC";
+        $stmt = $this->db->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Rechercher des produits
-    public function search($keyword) {
-        $sql = "SELECT * FROM produits WHERE nom LIKE ? OR description LIKE ? ORDER BY created_at DESC";
+    // Récupérer un produit par ID
+    public function getProduitById($id) {
+        $sql = "SELECT * FROM Produit WHERE id = ?";
         $stmt = $this->db->prepare($sql);
-        $like = "%" . $keyword . "%";
-        $stmt->execute([$like, $like]);
-        return $stmt->fetchAll();
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Gestion de l'image
-    public function getImagePath($image) {
-        $default = "https://via.placeholder.com/300x200?text=Pas+d'image";
-        $path = __DIR__ . "/../uploads/produits/" . $image;
-        if (!empty($image) && file_exists($path)) {
-            return BASE_URL . "/uploads/produits/" . htmlspecialchars($image);
-        }
-        return $default;
+    // Rechercher un produit
+    public function search($keyword) {
+        $sql = "SELECT * FROM Produit WHERE libelle LIKE ? OR description LIKE ?";
+        $stmt = $this->db->prepare($sql);
+        $like = "%$keyword%";
+        $stmt->execute([$like, $like]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 ?>
