@@ -5,6 +5,8 @@ require_once __DIR__ . "/../../models/Utilisateur.php";
 require_once __DIR__ . "/../../db/connexion.php";
 require_once __DIR__ . '/../../includes/header.php';
 require_once __DIR__ . '/../../includes/navbar.php';
+require_once __DIR__ . '/../../controllers/UserController.php';
+
 
 $utilisateurModel = new Utilisateur($pdo);
 $users = $utilisateurModel->getAll();
@@ -56,7 +58,7 @@ $users = $utilisateurModel->getAll();
         <label>Rôle :</label>
         <select name="role">
             <option value="admin">Admin</option>
-            <option value="agent">Agent</option>
+            <option value="agent">technicien</option>
         </select><br><br>
 
         <button type="submit">Ajouter</button>

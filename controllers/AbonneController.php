@@ -9,11 +9,6 @@ require_once __DIR__ . '/../models/Utilisateur.php';
 
 
 
-if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'abonne') {
-    header("Location: " . BASE_URL . "views/public/login.php");
-    exit;
-
-}
 
 $userId = $_SESSION['user']['id'];
 

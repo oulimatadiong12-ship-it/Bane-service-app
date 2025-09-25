@@ -1,9 +1,7 @@
 <?php
 // views/admin/dashboard.php
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+
 
 require_once __DIR__ . "/../../includes/auth.php";
 require_once __DIR__ . "/../../config.php"; // pour BASE_URL
