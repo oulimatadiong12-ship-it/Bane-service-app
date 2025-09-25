@@ -1,9 +1,7 @@
 <?php
 // views/admin/dashboard.php
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+
 
 require_once __DIR__ . "/../../includes/auth.php";
 
@@ -44,7 +42,7 @@ require_once '../../Includes/navbar.php';
 <ul>
     <li><a href="/views/admin/produits.php">Produits</a></li>
     <li><a href="/views/admin/commandes.php">Commandes</a></li>
-    <li><a href="/views/admin/abonnements.php">Abonnements</a></li>
+    <li><a href=" ../../controllers/AbonnementAdminController.php">Abonnements</a></li>
     <li><a href="/views/admin/finance.php">Finances</a></li>
     <li><a href="/controllers/UserController.php?action=logout">Déconnexion</a></li>
 </ul>

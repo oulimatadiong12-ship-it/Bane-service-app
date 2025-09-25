@@ -2,6 +2,8 @@
 // Cette vue est incluse par AbonnementAdminController.php
 require_once __DIR__ . '/../../includes/header.php';
 require_once __DIR__ . '/../../includes/navbar.php';
+require_once __DIR__ . '/../../controllers/AbonnementAdminController.php';
+
 ?>
 
 

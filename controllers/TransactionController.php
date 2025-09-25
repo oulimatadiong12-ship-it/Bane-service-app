@@ -1,15 +1,15 @@
 <?php
-session_start();
+
 require_once __DIR__ . '/../db/connexion.php';
 require_once __DIR__ . '/../models/Transaction.php';
 require_once __DIR__ . '/../models/Utilisateur.php';
-require_once __DIR__ . '/../../includes/navbar.php';
+require_once __DIR__ . '/../includes/navbar.php';
 $transactionModel = new Transaction($pdo);
 $userModel = new Utilisateur($pdo);
 
 // Vérification rôle admin/agent
-if (!isset($_SESSION['user']) || !in_array($_SESSION['user']['role'], ['admin','agent'])) {
-    header("Location: " . BASE_URL . "/views/login.php");
+if (!isset($_SESSION['user']) || !in_array($_SESSION['user']['role'], ['admin','technicien'])) {
+    header("Location: " . BASE_URL . "/views/public/login.php");
     exit;
 }
 
