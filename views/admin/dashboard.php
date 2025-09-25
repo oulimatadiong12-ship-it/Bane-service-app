@@ -1,4 +1,4 @@
-<?php 
+<?php
 // views/admin/dashboard.php
 
 if (session_status() === PHP_SESSION_NONE) {
@@ -6,6 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 require_once __DIR__ . "/../../includes/auth.php";
+require_once __DIR__ . "/../../config.php"; // pour BASE_URL
 
 requireLogin();
 
@@ -19,21 +20,22 @@ if (!isAdmin()) {
 <head>
     <meta charset="UTF-8">
     <title>Dashboard Admin</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
 
-<?php
-require_once __DIR__ . "/../../includes/navbar.php";
-?>
+<?php require_once __DIR__ . "/../../includes/navbar.php"; ?>
 
-<div class="container my-5">
-    <div class="card shadow-lg">
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-3">
+        <div class="card-header bg-primary text-white text-center">
+            <h3 class="mb-0">Dashboard Administrateur</h3>
+        </div>
         <div class="card-body">
-            <h1 class="card-title text-center text-primary">Dashboard Administrateur</h1>
-            <p class="text-center mt-3">
+            <p class="fs-5">
                 Bienvenue, 
+                <strong>
                 <?php
                 if (isset($_SESSION['user']['prenom']) && isset($_SESSION['user']['nom'])) {
                     echo htmlspecialchars($_SESSION['user']['prenom'] . " " . $_SESSION['user']['nom']);
@@ -43,49 +45,34 @@ require_once __DIR__ . "/../../includes/navbar.php";
                     echo "Admin";
                 }
                 ?>
+                </strong>
             </p>
-        </div>
-    </div>
 
-    <div class="row mt-4">
-        <!-- Produits -->
-        <div class="col-md-4 mb-3">
-            <a href="/views/admin/produits.php" class="btn btn-outline-primary w-100 p-3 shadow-sm">
-                📦 Gestion Produits
-            </a>
-        </div>
+            <div class="row text-center">
+                <div class="col-md-3 mb-3">
+                    <a href="<?= BASE_URL ?>/views/admin/produits.php" class="btn btn-outline-primary w-100">📦 Produits</a>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <a href="<?= BASE_URL ?>/views/admin/commandes.php" class="btn btn-outline-success w-100">🛒 Commandes</a>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <a href="<?= BASE_URL ?>/views/admin/abonnements.php" class="btn btn-outline-warning w-100">📑 Abonnements</a>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <a href="<?= BASE_URL ?>/views/admin/finance.php" class="btn btn-outline-info w-100">💰 Finances</a>
+                </div>
+            </div>
 
-        <!-- Commandes -->
-        <div class="col-md-4 mb-3">
-            <a href="/views/admin/commandes.php" class="btn btn-outline-success w-100 p-3 shadow-sm">
-                🛒 Gestion Commandes
-            </a>
-        </div>
-
-        <!-- Abonnements -->
-        <div class="col-md-4 mb-3">
-            <a href="/views/admin/abonnements.php" class="btn btn-outline-warning w-100 p-3 shadow-sm">
-                🎫 Abonnements
-            </a>
-        </div>
-
-        <!-- Finances -->
-        <div class="col-md-6 mb-3">
-            <a href="/views/admin/finance.php" class="btn btn-outline-info w-100 p-3 shadow-sm">
-                💰 Finances
-            </a>
-        </div>
-
-        <!-- Déconnexion -->
-        <div class="col-md-6 mb-3">
-            <a href="/controllers/UserController.php?action=logout" class="btn btn-outline-danger w-100 p-3 shadow-sm">
-                🚪 Déconnexion
-            </a>
+            <div class="text-center mt-4">
+                <a href="<?= BASE_URL ?>/controllers/UserController.php?action=logout" class="btn btn-danger">
+                    🚪 Déconnexion
+                </a>
+            </div>
         </div>
     </div>
 </div>
 
 <!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

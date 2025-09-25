@@ -4,9 +4,12 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once __DIR__ . "/../models/Utilisateur.php";
+// Ne PAS inclure header.php ou navbar.php ici !
+// Inclure auth (BASE_URL) et la connexion PDO
+require_once __DIR__ . "/../includes/auth.php"; 
+require_once __DIR__ . "/../Includes/navbar.php";       // contient session start & BASE_URL
 require_once __DIR__ . "/../db/connexion.php";
-require_once __DIR__ . '/../Includes/navbar.php';
+require_once __DIR__ . "/../models/Utilisateur.php";
 
 $utilisateurModel = new Utilisateur($pdo);
 
@@ -27,28 +30,28 @@ if ($action === "login" && $_SERVER['REQUEST_METHOD'] === "POST") {
             "email" => $user['email'],
             "role" => $user['role']
         ];
-              
-                // Redirection selon rôle
-                    switch ($user['role']) {
-                        case 'admin':
-                            header('Location: '.BASE_URL . 'views/admin/dashboard.php');
-                            exit;
-                        case 'abonne':
-                            header('Location:'.BASE_URL . 'views/abonne/dashboard.php');
-                            exit;
-                        case 'client':
-                            header('Location:' .BASE_URL . 'views/client/dashboard.php');
-                            exit;
-                        case 'technicien':
-                            header('Location: '.BASE_URL . 'views/technicien/dashboard.php');
-                            exit;
-                        default:
-                            header('Location: '. BASE_URL . 'views/public/login.php');
-                        }
-                             exit;
+
+        // Redirection selon rôle (avec slash après BASE_URL)
+        switch ($user['role']) {
+            case 'admin':
+                header("Location: " . BASE_URL . "/views/admin/dashboard.php");
+                exit;
+            case 'abonne':
+                header("Location: " . BASE_URL . "/views/abonne/dashboard.php");
+                exit;
+            case 'client':
+                header("Location: " . BASE_URL . "/views/client/dashboard.php");
+                exit;
+            case 'technicien':
+                header("Location: " . BASE_URL . "/views/technicien/dashboard.php");
+                exit;
+            default:
+                header("Location: " . BASE_URL . "/index.php");
+                exit;
+        }
     } else {
         $_SESSION['error'] = "Email ou mot de passe incorrect.";
-        header("Location: /views/public/login.php");
+        header("Location: " . BASE_URL . "/../views/public/login.php");
         exit;
     }
 }
@@ -56,7 +59,7 @@ if ($action === "login" && $_SERVER['REQUEST_METHOD'] === "POST") {
 // Déconnexion
 if ($action === "logout") {
     session_destroy();
-    header("Location: /index.php");
+    header("Location: " . BASE_URL . "index.php");
     exit;
 }
 
@@ -72,6 +75,6 @@ if ($action === "add" && $_SERVER['REQUEST_METHOD'] === "POST") {
     } else {
         $_SESSION['error'] = "Erreur lors de l'ajout.";
     }
-    header("Location: /views/admin/utilisateurs.php");
+    header("Location: " . BASE_URL . "/views/admin/utilisateurs.php");
     exit;
 }
