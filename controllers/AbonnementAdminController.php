@@ -48,6 +48,5 @@ header("Location: " . BASE_URL . "views/admin/abonnements.php");
 // Récupérer tous les abonnements pour la vue
 $abonnements = $abonnementModel->getAll();
 
-// Inclure la vue
-require_once __DIR__ . '/../views/admin/abonnements.php';
+
 ?>

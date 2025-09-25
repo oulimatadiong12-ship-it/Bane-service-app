@@ -9,7 +9,7 @@ require_once __DIR__ . "/../../config.php"; // pour BASE_URL
 requireLogin();
 
 if (!isAdmin()) {
-    header("Location: " . BASE_URL . "/index.php");
+    header("Location: " . BASE_URL . "views/public/login.php");
     exit();
 }
 ?>

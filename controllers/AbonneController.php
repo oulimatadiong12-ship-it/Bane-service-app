@@ -2,6 +2,7 @@
 
 
 require_once __DIR__ . '/../db/connexion.php';
+require_once __DIR__ . "/../includes/auth.php"; 
 require_once __DIR__ . '/../Includes/navbar.php';
 require_once __DIR__ . '/../models/Abonnement.php';
 require_once __DIR__ . '/../models/PaiementAbonnement.php';
@@ -42,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $adresse = $_POST['adresse'] ?? $profil['adresse'];
 
             $userModel->update($userId, $nom, $prenom, $email, $telephone, $adresse);
-            header("Location: " . BASE_URL . "controllers/AbonneController.php");
+            header("Location: " . BASE_URL . "views/abonne/profil.php");
             exit;
     }
 }
@@ -57,18 +58,6 @@ $profil = $userModel->getById($userId);
 
 
 
-// Inclure la vue selon paramètre GET
-$view = $_GET['view'] ?? 'dashboard';
 
-switch ($view) {
-    case 'abonnement':
-        require_once __DIR__ . '/../views/abonne/abonnement.php';
-        break;
-    case 'profil':
-        require_once __DIR__ . '/../views/abonne/profil.php';
-        break;
-    default:
-        require_once __DIR__ . '/../views/abonne/dashboard.php';
-        break;
-}
+
 ?>
