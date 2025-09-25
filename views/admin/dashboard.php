@@ -8,7 +8,7 @@ require_once __DIR__ . "/../../includes/auth.php";
 requireLogin();
 
 if (!isAdmin()) {
-    header("Location: " . BASE_URL . "/index.php");
+    header("Location: " . BASE_URL . "views/public/login.php");
     exit();
 }
 ?>
