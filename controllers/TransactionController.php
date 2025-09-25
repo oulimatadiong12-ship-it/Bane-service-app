@@ -9,7 +9,7 @@ $userModel = new Utilisateur($pdo);
 
 // Vérification rôle admin/agent
 if (!isset($_SESSION['user']) || !in_array($_SESSION['user']['role'], ['admin','technicien'])) {
-    header("Location: " . BASE_URL . "/views/public/login.php");
+    header("Location: " . BASE_URL . "views/public/login.php");
     exit;
 }
 
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $transactionModel->create($type, $operation, $montant, $numero, $statut, $utilisateur_id, $employe_id);
         }
 
-        header("Location: " . BASE_URL . "/views/admin/finances.php");
+        header("Location: " . BASE_URL . "views/admin/finances.php");
         exit;
     }
 }
