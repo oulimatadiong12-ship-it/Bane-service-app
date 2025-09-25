@@ -27,12 +27,12 @@ require_once __DIR__ . '/../../includes/navbar.php';
                 <td><?= htmlspecialchars($rv['statut']) ?></td>
                 <td>
                     <?php if($rv['statut'] === 'planifié' || $rv['statut'] === 'en cours'): ?>
-                        <form method="POST" action="../../controllers/RendezVousController.php" style="display:inline">
+                        <form method="POST" action="<?= BASE_URL ?>controllers/RendezVousController.php" style="display:inline">
                             <input type="hidden" name="rv_id" value="<?= $rv['id'] ?>">
                             <input type="hidden" name="action" value="terminer">
                             <button type="submit">Terminé</button>
                         </form>
-                        <form method="POST" action="../../controllers/RendezVousController.php" style="display:inline" onsubmit="return confirm('Voulez-vous annuler ce rendez-vous ?');">
+                        <form method="POST" action="<?= BASE_URL ?>controllers/RendezVousController.php" style="display:inline" onsubmit="return confirm('Voulez-vous annuler ce rendez-vous ?');">
                             <input type="hidden" name="rv_id" value="<?= $rv['id'] ?>">
                             <input type="hidden" name="action" value="annuler">
                             <button type="submit">Annuler</button>

@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/../../includes/header.php';
-require_once __DIR__ . '/../../includes/navbar.php';
+require_once __DIR__ . '/../../Includes/header.php';
+require_once __DIR__ . '/../../Includes/navbar.php';
 ?>
 
 <div class="container">
@@ -28,7 +28,7 @@ require_once __DIR__ . '/../../includes/navbar.php';
                         <td><?= htmlspecialchars($abo['statut']) ?></td>
                         <td>
                             <?php if ($abo['statut'] === 'actif'): ?>
-                                <form method="POST" action="../../controllers/AbonneController.php">
+                                <form method="POST" action="<?= BASE_URL ?>controllers/AbonneController.php">
                                     <input type="hidden" name="action" value="renouveler">
                                     <input type="hidden" name="abonnement_id" value="<?= $abo['id'] ?>">
                                     <input type="date" name="nouvelle_date_fin" required>

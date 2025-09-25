@@ -29,12 +29,12 @@ require_once __DIR__ . '/../../includes/navbar.php';
                     <td><?= htmlspecialchars($rv['service_type']) ?></td>
                     <td><?= htmlspecialchars($rv['statut']) ?></td>
                     <td>
-                        <form method="post" action="../../controllers/RendezVousController.php" style="display:inline">
+                        <form method="post" action="<?= BASE_URL ?>controllers/RendezVousController.php" style="display:inline">
                             <input type="hidden" name="action" value="terminer">
                             <input type="hidden" name="id" value="<?= $rv['id'] ?>">
                             <button type="submit">Terminé</button>
                         </form>
-                        <form method="post" action="../../controllers/RendezVousController.php" style="display:inline">
+                        <form method="post" action="<?= BASE_URL ?>controllers/RendezVousController.php" style="display:inline">
                             <input type="hidden" name="action" value="annuler">
                             <input type="hidden" name="id" value="<?= $rv['id'] ?>">
                             <button type="submit">Annuler</button>

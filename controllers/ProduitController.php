@@ -1,41 +1,83 @@
 <?php
 // controllers/ProduitController.php
 
-require_once __DIR__ . "/../db/connexion.php";
-require_once __DIR__ . "/../models/Produit.php";
+require_once __DIR__ . '/../db/connexion.php';
+require_once __DIR__ . '/../models/Produit.php';
 
-$produitModel = new Produit($pdo); // On passe la connexion PDO au modèle
+if (!defined('BASE_URL')) {
+    define('BASE_URL', 'http://localhost/Bane-service-app/');
+}
+
+session_start();
+
+$produitModel = new Produit($pdo);
 
 // ------------------------
-// Ajouter un produit
+// Ajouter un produit (Admin)
 // ------------------------
 if (isset($_POST['action']) && $_POST['action'] === 'ajouter') {
-    $nom = $_POST['nom'];
-    $prix = $_POST['prix'];
-    $description = $_POST['description'];
+    $libelle       = $_POST['libelle'];
+    $categorie     = $_POST['categorie'];
+    $prixAchat     = $_POST['prixAchat'];
+    $prixVente     = $_POST['prixVente'];
+    $stock         = $_POST['stock'] ?? 0;
+    $seuilAlerte   = $_POST['seuil_alerte'] ?? 5;
+    $description   = $_POST['description'];
+    $fournisseur   = $_POST['fournisseur'];
 
-    // Gestion image
-    $image = null;
-    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-        $image = uniqid() . '_' . $_FILES['image']['name'];
-        move_uploaded_file($_FILES['image']['tmp_name'], __DIR__ . "/../uploads/produits/" . $image);
-    }
+    $produitModel->create(
+        $libelle, $categorie, $prixAchat, $prixVente, $stock,
+        $seuilAlerte, $description, $fournisseur
+    );
 
-    $produitModel->create($nom, $prix, $description, $image);
-    header("Location: ../views/admin/produits.php");
+    header("Location: " . BASE_URL . "views/admin/produits.php");
     exit;
 }
 
 // ------------------------
-// Supprimer un produit
+// Modifier un produit (Admin)
+// ------------------------
+if (isset($_POST['action']) && $_POST['action'] === 'modifier' && isset($_POST['id'])) {
+    $id            = $_POST['id'];
+    $libelle       = $_POST['libelle'];
+    $categorie     = $_POST['categorie'];
+    $prixAchat     = $_POST['prixAchat'];
+    $prixVente     = $_POST['prixVente'];
+    $stock         = $_POST['stock'] ?? 0;
+    $seuilAlerte   = $_POST['seuil_alerte'] ?? 5;
+    $description   = $_POST['description'];
+    $fournisseur   = $_POST['fournisseur'];
+
+    $produitModel->update(
+        $id, $libelle, $categorie, $prixAchat, $prixVente, $stock,
+        $seuilAlerte, $description, $fournisseur
+    );
+
+    header("Location: " . BASE_URL . "views/admin/produits.php");
+    exit;
+}
+
+// ------------------------
+// Supprimer un produit (Admin)
 // ------------------------
 if (isset($_GET['action']) && $_GET['action'] === 'supprimer' && isset($_GET['id'])) {
     $produitModel->delete($_GET['id']);
-    header("Location: ../views/admin/produits.php");
+    header("Location: " . BASE_URL . "views/admin/produits.php");
     exit;
 }
 
 // ------------------------
-// Récupérer tous les produits pour affichage
+// Affichage PUBLIC : Catalogue produits
 // ------------------------
-$produits = $produitModel->getAll();
+$search = $_GET['search'] ?? null;
+
+if (!empty($search)) {
+    $produits = $produitModel->search($search);
+} else {
+    $produits = $produitModel->getAllProduits();
+}
+
+// ------------------------
+// Inclure la vue publique
+// ------------------------
+include __DIR__ . '/../views/public/produits.php';
