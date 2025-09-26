@@ -1,17 +1,12 @@
 <?php
-session_start();
+
 require_once __DIR__ . '/../db/connexion.php';
 require_once __DIR__ . '/../models/Transaction.php';
 require_once __DIR__ . '/../models/Utilisateur.php';
-require_once __DIR__ . '/../../includes/navbar.php';
+require_once __DIR__ . '/../Includes/navbar.php';
 $transactionModel = new Transaction($pdo);
 $userModel = new Utilisateur($pdo);
 
-// Vérification rôle admin/agent
-if (!isset($_SESSION['user']) || !in_array($_SESSION['user']['role'], ['admin','agent'])) {
-    header("Location: " . BASE_URL . "/views/login.php");
-    exit;
-}
 
 // Actions POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -28,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $transactionModel->create($type, $operation, $montant, $numero, $statut, $utilisateur_id, $employe_id);
         }
 
-        header("Location: " . BASE_URL . "/views/admin/finances.php");
+        header("Location: " . BASE_URL . "views/admin/finances.php");
         exit;
     }
 }
@@ -38,6 +33,5 @@ $transactions = $transactionModel->getAll();
 $soldeCaisse = $transactionModel->getSoldeCaisse();
 $clients = $userModel->getAllClients();
 
-// Inclure la vue
-require_once __DIR__ . '/../views/admin/finances.php';
+
 ?>
