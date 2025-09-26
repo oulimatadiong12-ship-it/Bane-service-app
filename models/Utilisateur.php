@@ -19,6 +19,13 @@ class Utilisateur {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    // 🔹 Récupérer un utilisateur par prénom
+    public function getByPrenom($prenom) {
+        $stmt = $this->db->prepare("SELECT * FROM Utilisateur WHERE prenom = :prenom LIMIT 1");
+        $stmt->execute(['prenom' => $prenom]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     // 🔹 Récupérer un utilisateur par email
     public function getByEmail($email) {
         $stmt = $this->db->prepare("SELECT * FROM Utilisateur WHERE email = :email LIMIT 1");
@@ -27,7 +34,7 @@ class Utilisateur {
     }
 
     // 🔹 Ajouter un utilisateur
-    public function add($nom, $prenom, $email, $password, $role = 'client') {
+    public function add($nom, $prenom, $email, $password, $role = 'client, admin; technicien, abonne') {
         $hash = password_hash($password, PASSWORD_BCRYPT);
         $stmt = $this->db->prepare("INSERT INTO Utilisateur (nom, prenom, email, password, role) 
                                     VALUES (:nom, :prenom, :email, :password, :role)");

@@ -30,9 +30,12 @@ require_once __DIR__ . '/../../includes/auth.php';
                         </div>
                         <button type="submit" class="btn btn-dark w-100">Se connecter</button>
                     </form>
-                    <div class="text-center mt-3">
-                        <small>Pas de compte ? <a href="#">Contactez l'admin</a></small>
-                    </div>
+                   <div class="text-center mt-3">
+    <small>Pas de compte ? 
+        <a href="<?php echo BASE_URL; ?>views/public/contact.php">Contactez l'admin</a>
+    </small>
+</div>
+
                 </div>
             </div>
         </div>
