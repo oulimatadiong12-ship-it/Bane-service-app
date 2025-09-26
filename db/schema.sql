@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-
-
--- ==============================
---TABLE PRODUITS
--- ==============================
-CREATE TABLE IF NOT EXISTS produits (
-=======
 DROP DATABASE IF EXISTS bane_service;
 CREATE DATABASE bane_service
   CHARACTER SET utf8mb4
@@ -58,13 +50,6 @@ CREATE TABLE Produit (
     stock INT DEFAULT 0,
     seuil_alerte INT DEFAULT 5,
     description TEXT,
-<<<<<<< HEAD
-    image VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-- TABLE PRODUITS
-=======
     fournisseur VARCHAR(150)
 ) ENGINE=InnoDB;
 
@@ -124,4 +109,30 @@ CREATE TABLE Intervention (
     statut ENUM('en attente','en cours','terminé','annulé') DEFAULT 'en attente',
     FOREIGN KEY (rendezvous_id) REFERENCES RendezVous(id) ON DELETE CASCADE 
 ) ENGINE=InnoDB;
->>>>>>> ac6d8ffe536e579e2719479258cbfc9ed68a8f9d
+
+-- 10. Table Transaction
+CREATE TABLE Transaction (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    type ENUM('OM', 'Wave', 'Espèces') NOT NULL,
+    operation ENUM('dépôt', 'retrait', 'crédit') NOT NULL,
+    montant DECIMAL(10,2) NOT NULL,
+    numero VARCHAR(50),
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    statut ENUM('en attente', 'validée', 'échouée') DEFAULT 'en attente',
+    utilisateur_id INT NOT NULL,
+    employe_id INT NOT NULL,
+    FOREIGN KEY (utilisateur_id) REFERENCES Utilisateur(id) ON DELETE CASCADE,
+    FOREIGN KEY (employe_id) REFERENCES Utilisateur(id) ON DELETE CASCADE
+);
+
+-- 11. Table Promotion
+CREATE TABLE Promotion (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    titre VARCHAR(150) NOT NULL,
+    description TEXT,
+    image_path VARCHAR(255),
+    type ENUM('canal', 'produit', 'service') NOT NULL,
+    date_debut DATE NOT NULL,
+    date_fin DATE NOT NULL,
+    statut ENUM('active', 'inactive') DEFAULT 'active'
+);
