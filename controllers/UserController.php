@@ -7,8 +7,9 @@ if (session_status() === PHP_SESSION_NONE) {
 // Inclure auth (BASE_URL), connexion PDO et navbar
 require_once __DIR__ . "/../Includes/auth.php";
 require_once __DIR__ . "/../db/connexion.php";
+require_once __DIR__ . "/../models/Utilisateur.php";
 require_once __DIR__ . '/../Includes/navbar.php';
-require_once __DIR__ . "/../views/admin/utilisateurs.php";
+
 
 $utilisateurModel = new Utilisateur($pdo);
 
