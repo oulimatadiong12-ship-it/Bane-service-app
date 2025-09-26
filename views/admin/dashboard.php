@@ -2,6 +2,8 @@
 // views/admin/dashboard.php
 
 require_once __DIR__ . "/../../Includes/auth.php";
+require_once __DIR__ . "/../../db/connexion.php";
+require_once __DIR__ . '/../../includes/navbar.php';
 ?>
 <!DOCTYPE html>
 <html lang="fr">

@@ -37,7 +37,6 @@ $users = $utilisateurModel->getAll();
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     <?php endif; ?>
-
     <!-- Liste des utilisateurs -->
     <div class="card shadow-sm mb-5">
         <div class="card-header bg-primary text-white">
