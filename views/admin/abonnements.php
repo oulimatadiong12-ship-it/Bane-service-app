@@ -85,7 +85,7 @@ require_once __DIR__ . '/../../controllers/AbonnementAdminController.php';
                         </form>
 
                         <!-- Supprimer -->
-                        <form method="post" action=".<?= BASE_URL ?>controllers/AbonnementAdminController.php" style="display:inline" onsubmit="return confirm('Voulez-vous vraiment supprimer cet abonnement ?');">
+                        <form method="post" action="/../Bane-Service-App/controllers/AbonnementAdminController.php" style="display:inline" onsubmit="return confirm('Voulez-vous vraiment supprimer cet abonnement ?');">
                             <input type="hidden" name="action" value="supprimer">
                             <input type="hidden" name="abonnement_id" value="<?= $abo['id'] ?>">
                             <button type="submit">Supprimer</button>
