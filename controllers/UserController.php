@@ -5,10 +5,10 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Inclure auth (BASE_URL), connexion PDO et navbar
-require_once __DIR__ . "/../includes/auth.php";
+require_once __DIR__ . "/../Includes/auth.php";
 require_once __DIR__ . "/../db/connexion.php";
-require_once __DIR__ . '/../includes/navbar.php';
-require_once __DIR__ . "/../models/Utilisateur.php";
+require_once __DIR__ . '/../Includes/navbar.php';
+require_once __DIR__ . "/../views/admin/utilisateurs.php";
 
 $utilisateurModel = new Utilisateur($pdo);
 
@@ -73,7 +73,6 @@ if ($action === "add" && $_SERVER['REQUEST_METHOD'] === "POST") {
         $_SESSION['success'] = "Utilisateur ajouté avec succès.";
     } else {
         $_SESSION['error'] = "Erreur lors de l'ajout.";
-    }
-    header("Location: " . BASE_URL . "views/admin/utilisateurs.php");
+    };
     exit;
 }
