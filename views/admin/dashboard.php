@@ -41,16 +41,16 @@ require_once __DIR__ . "/../../Includes/auth.php";
 
             <div class="row text-center">
                 <div class="col-md-3 mb-3">
-                    <a href="<?= BASE_URL ?>/views/admin/produits.php" class="btn btn-outline-primary w-100">📦 Produits</a>
+                    <a href="<?= BASE_URL ?>views/admin/produits.php" class="btn btn-outline-primary w-100">📦 Produits</a>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <a href="<?= BASE_URL ?>/views/admin/commandes.php" class="btn btn-outline-success w-100">🛒 Commandes</a>
+                    <a href="<?= BASE_URL ?>views/admin/commandes.php" class="btn btn-outline-success w-100">🛒 Commandes</a>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <a href="<?= BASE_URL ?>/views/admin/abonnements.php" class="btn btn-outline-warning w-100">📑 Abonnements</a>
+                    <a href="<?= BASE_URL ?>views/admin/abonnements.php" class="btn btn-outline-warning w-100">📑 Abonnements</a>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <a href="<?= BASE_URL ?>/views/admin/finances.php" class="btn btn-outline-info w-100">💰 Finances</a>
+                    <a href="<?= BASE_URL ?>views/admin/finances.php" class="btn btn-outline-info w-100">💰 Finances</a>
                 </div>
             </div>
 
