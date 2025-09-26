@@ -1,5 +1,6 @@
 <?php
 // views/admin/commandes.php
+
 require_once __DIR__ . "/../../db/connexion.php";
 require_once __DIR__ . "/../../models/Commande.php";
 require_once __DIR__ . "/../../includes/navbar.php";

@@ -39,12 +39,13 @@ class Abonnement {
         $stmt = $this->db->prepare("INSERT INTO Abonnement (utilisateur_id, formule, prix, date_debut, date_fin, statut)
                                     VALUES (:utilisateur_id, :formule, :prix, :debut, :fin, 'actif')");
         return $stmt->execute([
-            ':utilisateur_id' => $utilisateur_id,
-            'formule' => $formule,
-            'prix' => $prix,
-            'debut' => $date_debut,
-            'fin' => $date_fin
-        ]);
+    ':utilisateur_id' => $utilisateur_id,
+    ':formule' => $formule,
+    ':prix' => $prix,
+    ':debut' => $date_debut,
+    ':fin' => $date_fin
+]);
+
     }
 
     // Renouveler un abonnement

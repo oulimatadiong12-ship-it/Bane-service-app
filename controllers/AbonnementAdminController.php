@@ -1,18 +1,14 @@
 <?php
-session_start();
+
 require_once __DIR__ . '/../db/connexion.php';
-require_once __DIR__ . '/../../includes/navbar.php';
+require_once __DIR__ . '/../Includes/navbar.php';
 require_once __DIR__ . '/../models/Abonnement.php';
 require_once __DIR__ . '/../models/Utilisateur.php';
 
 $abonnementModel = new Abonnement($pdo);
 $userModel = new Utilisateur($pdo);
 
-// Vérifier si l'utilisateur est admin
-if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-    header("Location: " . BASE_URL . "/views/login.php");
-    exit;
-}
+
 
 // Actions POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -39,16 +35,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         case 'supprimer':
             $abonnementModel->delete($_POST['abonnement_id']);
+            
             break;
     }
     // Redirection après action
-    header("Location: " . BASE_URL . "/views/admin/abonnements.php");
+    // Bon ✅
+header("Location: " . BASE_URL . "views/admin/abonnements.php");
+
     exit;
 }
 
 // Récupérer tous les abonnements pour la vue
 $abonnements = $abonnementModel->getAll();
 
-// Inclure la vue
-require_once __DIR__ . '/../views/admin/abonnements.php';
+
 ?>

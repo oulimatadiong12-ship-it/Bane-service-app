@@ -1,12 +1,12 @@
 <?php
-session_start();
+
 require_once __DIR__ . '/../db/connexion.php';
 require_once __DIR__ . '/../models/Intervention.php';
 require_once __DIR__ . '/../models/RendezVous.php';
-require_once __DIR__ . '/../../includes/navbar.php';
+require_once __DIR__ . '/../Includes/navbar.php';
 // Vérification rôle technicien
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'technicien') {
-    header("Location: " . BASE_URL . "/views/login.php");
+    header("Location: " . BASE_URL . "views/public/login.php");
     exit;
 }
 
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             break;
     }
-    header("Location: " . BASE_URL . "/views/technicien/interventions.php");
+    header("Location: " . BASE_URL . "views/technicien/interventions.php");
     exit;
 }
 
@@ -52,6 +52,4 @@ $interventions = $interventionModel->getByTechnicien($technicienId);
 // Récupérer les rendez-vous planifiés pour ce technicien
 $rendezvous = $rvModel->getByTechnicien($technicienId);
 
-// Charger la vue
-require_once __DIR__ . '/../views/technicien/interventions.php';
 ?>

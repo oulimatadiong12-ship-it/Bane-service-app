@@ -1,6 +1,7 @@
 <?php
-require_once __DIR__ . '/../../includes/header.php';
-require_once __DIR__ . '/../../includes/navbar.php';
+require_once __DIR__ . '/../../Includes/header.php';
+require_once __DIR__ . '/../../Includes/navbar.php';
+require_once __DIR__ . '/../../controllers/AbonneController.php';
 ?>
 
 <div class="container">
