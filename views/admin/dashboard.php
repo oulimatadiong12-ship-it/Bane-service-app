@@ -1,6 +1,14 @@
 <?php 
 // views/admin/dashboard.php
 
+
+
+require_once __DIR__ . "/../../Includes/auth.php";
+require_once __DIR__ . "/../../config.php"; // pour BASE_URL
+
+
+
+
 require_once __DIR__ . "/../../Includes/auth.php";
 ?>
 <!DOCTYPE html>
@@ -47,18 +55,22 @@ require_once __DIR__ . "/../../Includes/auth.php";
                 </div>
                 <!-- Abonnements -->
                 <div class="col-md-3 mb-3">
+                    <a href="<?= BASE_URL ?>views/admin/produits.php" class="btn btn-outline-primary w-100">📦 Produits</a>
                     <a href="<?= BASE_URL ?>views/admin/abonnements.php" class="btn btn-outline-warning w-100">📑 Abonnements</a>
                 </div>
                 <!-- Finances -->
                 <div class="col-md-3 mb-3">
+                    <a href="<?= BASE_URL ?>views/admin/commandes.php" class="btn btn-outline-success w-100">🛒 Commandes</a>
                     <a href="<?= BASE_URL ?>views/admin/finances.php" class="btn btn-outline-info w-100">💰 Finances</a>
                 </div>
                 <!-- Utilisateurs -->
                 <div class="col-md-3 mb-3">
+                    <a href="<?= BASE_URL ?>views/admin/abonnements.php" class="btn btn-outline-warning w-100">📑 Abonnements</a>
                     <a href="<?= BASE_URL ?>views/admin/utilisateurs.php" class="btn btn-outline-dark w-100">👤 Utilisateurs</a>
                 </div>
                 <!-- Promotions -->
                 <div class="col-md-3 mb-3">
+                    <a href="<?= BASE_URL ?>views/admin/finances.php" class="btn btn-outline-info w-100">💰 Finances</a>
                     <a href="<?= BASE_URL ?>views/admin/promotions.php" class="btn btn-outline-danger w-100">🎁 Promotions</a>
                 </div>
             </div>
