@@ -4,7 +4,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Ne PAS inclure header.php ou navbar.php ici !
 // Inclure auth (BASE_URL) et la connexion PDO
 require_once __DIR__ . "/../includes/auth.php"; 
 require_once __DIR__ . "/../Includes/navbar.php";       // contient session start & BASE_URL
