@@ -2,6 +2,7 @@
 // views/admin/utilisateurs.php
 require_once __DIR__ . "/../../models/Utilisateur.php";
 require_once __DIR__ . "/../../db/connexion.php";
+require_once __DIR__ . "/../../views/admin/dashboard.php";
 require_once __DIR__ . '/../../includes/header.php';
 require_once __DIR__ . '/../../includes/navbar.php';
 require_once __DIR__ . '/../../controllers/UserController.php';
