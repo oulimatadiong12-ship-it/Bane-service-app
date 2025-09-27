@@ -1,117 +1,106 @@
-<?php 
-// views/admin/utilisateurs.php
-require_once __DIR__ . "/../../models/Utilisateur.php";
+<?php  
+// views/admin/dashboard.php
+
+require_once __DIR__ . "/../../Includes/auth.php";
+require_once __DIR__ . "/../../config.php"; // pour BASE_URL
 require_once __DIR__ . "/../../db/connexion.php";
-require_once __DIR__ . '/../../includes/header.php';
 require_once __DIR__ . '/../../includes/navbar.php';
-require_once __DIR__ . '/../../controllers/UserController.php';
-
-$utilisateurModel = new Utilisateur($pdo);
-$users = $utilisateurModel->getAll();
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Gestion Utilisateurs</title>
+    <title>Dashboard Admin</title>
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
 
+<?php require_once __DIR__ . "/../../includes/navbar.php"; ?>
+
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Gestion des Utilisateurs</h2>
-
-    <!-- Messages de succès/erreur -->
-    <?php if (!empty($_SESSION['success'])): ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <?= htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    <?php endif; ?>
-
-    <?php if (!empty($_SESSION['error'])): ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    <?php endif; ?>
-
-    <!-- Liste des utilisateurs -->
-    <div class="card shadow-sm mb-5">
-        <div class="card-header bg-primary text-white">
-            Liste des utilisateurs
+    <div class="card shadow-lg border-0 rounded-3">
+        <div class="card-header bg-primary text-white text-center">
+            <h3 class="mb-0">Dashboard Administrateur</h3>
         </div>
         <div class="card-body">
-            <table class="table table-bordered table-hover text-center align-middle">
-                <thead class="table-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Nom</th>
-                        <th>Prénom</th>
-                        <th>Email</th>
-                        <th>Rôle</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($users as $u): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($u['id']) ?></td>
-                            <td><?= htmlspecialchars($u['nom']) ?></td>
-                            <td><?= htmlspecialchars($u['prenom']) ?></td>
-                            <td><?= htmlspecialchars($u['email']) ?></td>
-                            <td>
-                                <span class="badge <?= $u['role'] === 'admin' ? 'bg-danger' : 'bg-info' ?>">
-                                    <?= htmlspecialchars($u['role']) ?>
-                                </span>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
+            <p class="fs-5">
+                Bienvenue,
+                <strong>
+                <?php
+                if (isset($_SESSION['user']['prenom']) && isset($_SESSION['user']['nom'])) {
+                    echo htmlspecialchars($_SESSION['user']['prenom'] . " " . $_SESSION['user']['nom']);
+                } elseif (isset($_SESSION['user']['username'])) {
+                    echo htmlspecialchars($_SESSION['user']['username']);
+                } else {
+                    echo "Admin";
+                }
+                ?>
+                </strong>
+            </p>
 
-    <!-- Formulaire ajout utilisateur -->
-    <div class="card shadow-sm">
-        <div class="card-header bg-success text-white">
-            Ajouter un administrateur / agent
-        </div>
-        <div class="card-body">
-            <form method="post" action="<?= BASE_URL ?>/controllers/UserController.php?action=add">
-                <div class="mb-3">
-                    <label class="form-label">Nom</label>
-                    <input type="text" name="nom" class="form-control" placeholder="Entrez le nom" required>
+            <div class="row g-3 text-center">
+                <!-- Produits -->
+                <div class="col-md-4 col-lg-3">
+                    <a href="<?= BASE_URL ?>/views/admin/produits.php" class="btn btn-outline-primary w-100">
+                        📦 Produits
+                    </a>
                 </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Prénom</label>
-                    <input type="text" name="prenom" class="form-control" placeholder="Entrez le prénom" required>
+                <!-- Commandes -->
+                <div class="col-md-4 col-lg-3">
+                    <a href="<?= BASE_URL ?>/views/admin/commandes.php" class="btn btn-outline-success w-100">
+                        🛒 Commandes
+                    </a>
                 </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <input type="email" name="email" class="form-control" placeholder="exemple@mail.com" required>
+                <!-- Détail Commande -->
+                <div class="col-md-4 col-lg-3">
+                    <a href="<?= BASE_URL ?>/views/admin/detail_commande.php" class="btn btn-outline-secondary w-100">
+                        📋 Détail Commande
+                    </a>
                 </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Mot de passe</label>
-                    <input type="password" name="password" class="form-control" placeholder="••••••" required>
+                <!-- Abonnements -->
+                <div class="col-md-4 col-lg-3">
+                    <a href="<?= BASE_URL ?>/views/admin/abonnements.php" class="btn btn-outline-warning w-100">
+                        📑 Abonnements
+                    </a>
                 </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Rôle</label>
-                    <select name="role" class="form-select">
-                        <option value="admin">Admin</option>
-                        <option value="agent">Technicien</option>
-                        <option value="abonne">Abonné</option>
-                        <option value="client">Client</option>
-                    </select>
+                <!-- Finances -->
+                <div class="col-md-4 col-lg-3">
+                    <a href="<?= BASE_URL ?>/views/admin/finances.php" class="btn btn-outline-info w-100">
+                        💰 Finances
+                    </a>
                 </div>
+                <!-- Utilisateurs -->
+                <div class="col-md-4 col-lg-3">
+                    <a href="<?= BASE_URL ?>/views/admin/utilisateurs.php" class="btn btn-outline-dark w-100">
+                        👤 Utilisateurs
+                    </a>
+                </div>
+                <!-- Services -->
+                <div class="col-md-4 col-lg-3">
+                    <a href="<?= BASE_URL ?>/views/admin/services.php" class="btn btn-outline-primary w-100">
+                        ⚙️ Services
+                    </a>
+                </div>
+                <!-- Promotions -->
+                <div class="col-md-4 col-lg-3">
+                    <a href="<?= BASE_URL ?>/views/admin/promotions.php" class="btn btn-outline-danger w-100">
+                        🎁 Promotions
+                    </a>
+                </div>
+                <!-- Forme Promotion -->
+                <div class="col-md-4 col-lg-3">
+                    <a href="<?= BASE_URL ?>/views/admin/form_promotion.php" class="btn btn-outline-success w-100">
+                        📝 Forme Promotion
+                    </a>
+                </div>
+            </div>
 
-                <button type="submit" class="btn btn-success w-100">Ajouter</button>
-            </form>
+            <div class="text-center mt-4">
+                <a href="<?= BASE_URL ?>/controllers/UserController.php?action=logout" class="btn btn-danger">
+                    🚪 Déconnexion
+                </a>
+            </div>
         </div>
     </div>
 </div>
@@ -120,5 +109,3 @@ $users = $utilisateurModel->getAll();
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-<?php require_once __DIR__ . '/../../includes/footer.php'; ?>
