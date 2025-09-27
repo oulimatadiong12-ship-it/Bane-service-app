@@ -22,7 +22,8 @@ if ($action === "login" && $_SERVER['REQUEST_METHOD'] === "POST") {
     $password = $_POST['password'] ?? "";
 
     $user = $utilisateurModel->getByEmail($email);
-
+     
+    
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['user'] = [
             "id"    => $user['id'],
@@ -30,6 +31,9 @@ if ($action === "login" && $_SERVER['REQUEST_METHOD'] === "POST") {
             "email" => $user['email'],
             "role"  => $user['role']
         ];
+       
+        $id = $_SESSION['user']['id'];
+    $profil = $utilisateurModel->getById($id);
 
         // Redirection selon rôle
         switch ($user['role']) {
@@ -76,4 +80,28 @@ if ($action === "add" && $_SERVER['REQUEST_METHOD'] === "POST") {
         $_SESSION['error'] = "Erreur lors de l'ajout.";
     };
     exit;
+}
+
+
+$id = $_SESSION['user']['id'];
+$profil = $utilisateurModel->getById($id);
+
+// ✏️ ACTION : Mettre à jour le profil
+if ($action === "update_profil" && $_SERVER['REQUEST_METHOD'] === "POST") {
+    
+
+    $id = $_SESSION['user']['id'];
+    $nom = $_POST['nom'] ?? '';
+    $prenom = $_POST['prenom'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $telephone = $_POST['telephone'] ?? null;
+    $adresse = $_POST['adresse'] ?? null;
+
+    if ($utilisateurModel->update($id, $nom, $prenom, $email, $telephone, $adresse)) {
+        $_SESSION['success'] = "Profil mis à jour avec succès.";
+    } else {
+        $_SESSION['error'] = "Erreur lors de la mise à jour du profil.";
+    }
+
+    header("Location: " . BASE_URL . "views/technicien/profil.php");
 }

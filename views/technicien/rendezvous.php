@@ -4,48 +4,126 @@ require_once __DIR__ . '/../../includes/navbar.php';
 require_once __DIR__ . '/../../controllers/RendezVousController.php';
 ?>
 
-<div class="container">
-    <h1>Mes Rendez-Vous</h1>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <table border="1" cellpadding="5">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Heure</th>
-                <th>Client</th>
-                <th>Service</th>
-                <th>Statut</th>
-                <th>Actions</th>
-            </tr>
+<style>
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Sidebar fixe */
+  .sidebar {
+    position: fixed;
+    top: 56px; /* hauteur navbar */
+    left: 0;
+    width: 220px;
+    height: 100vh;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-right: 1px solid #dee2e6;
+  }
+
+  .sidebar a {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    color: #333;
+    text-decoration: none;
+    border-radius: 0.25rem;
+    margin-bottom: 0.25rem;
+    transition: background-color 0.2s, color 0.2s;
+  }
+
+  .sidebar a.active,
+  .sidebar a:hover {
+    background-color: #0d6efd;
+    color: white;
+  }
+
+  /* Contenu principal */
+  .content {
+    margin-left: 220px;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+  }
+
+  /* Responsive */
+  @media (max-width: 767.98px) {
+    .sidebar {
+      position: static;
+      width: 100%;
+      height: auto;
+      border-right: none;
+      border-bottom: 1px solid #dee2e6;
+      top: auto;
+    }
+    .content {
+      margin-left: 0;
+      padding: 1rem;
+    }
+  }
+</style>
+
+<div class="sidebar">
+  <h5 class="mb-4">Menu</h5>
+  <a href="/Bane-Service-App/views/technicien/dashboard.php">Dashboard</a>
+  <a href="/Bane-Service-App/views/technicien/intervention.php">Mes interventions</a>
+  <a href="/Bane-Service-App/views/technicien/profil.php">Mon profil</a>
+  <a href="/Bane-Service-App/views/technicien/rendezvous.php" class="active">Mes rendez-vous</a>
+</div>
+
+<div class="content">
+  <h1 class="mb-4">Mes Rendez-Vous</h1>
+
+  <?php if (!empty($rendezvous)): ?>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>Date</th>
+            <th>Heure</th>
+            <th>Client</th>
+            <th>Service</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
         </thead>
         <tbody>
-            <?php foreach ($rendezvous as $rv): ?>
+          <?php foreach ($rendezvous as $rv): ?>
             <tr>
-                <td><?= htmlspecialchars($rv['date']) ?></td>
-                <td><?= htmlspecialchars($rv['heure']) ?></td>
-                <td><?= htmlspecialchars($rv['client_nom'] . ' ' . $rv['client_prenom']) ?></td>
-                <td><?= htmlspecialchars($rv['service_type']) ?></td>
-                <td><?= htmlspecialchars($rv['statut']) ?></td>
-                <td>
-                    <?php if($rv['statut'] === 'planifié' || $rv['statut'] === 'en cours'): ?>
-                        <form method="POST" action="<?= BASE_URL ?>controllers/RendezVousController.php" style="display:inline">
-                            <input type="hidden" name="rv_id" value="<?= $rv['id'] ?>">
-                            <input type="hidden" name="action" value="terminer">
-                            <button type="submit">Terminé</button>
-                        </form>
-                        <form method="POST" action="<?= BASE_URL ?>controllers/RendezVousController.php" style="display:inline" onsubmit="return confirm('Voulez-vous annuler ce rendez-vous ?');">
-                            <input type="hidden" name="rv_id" value="<?= $rv['id'] ?>">
-                            <input type="hidden" name="action" value="annuler">
-                            <button type="submit">Annuler</button>
-                        </form>
-                    <?php else: ?>
-                        <span>Aucune action</span>
-                    <?php endif; ?>
-                </td>
+              <td><?= htmlspecialchars($rv['date']) ?></td>
+              <td><?= htmlspecialchars($rv['heure']) ?></td>
+              <td><?= htmlspecialchars($rv['client_nom'] . ' ' . $rv['client_prenom']) ?></td>
+              <td><?= htmlspecialchars($rv['service_type']) ?></td>
+              <td><?= htmlspecialchars($rv['statut']) ?></td>
+              <td>
+                <?php if($rv['statut'] === 'planifié' || $rv['statut'] === 'en cours'): ?>
+                  <form method="POST" action="<?= BASE_URL ?>controllers/RendezVousController.php" style="display:inline">
+                    <input type="hidden" name="rv_id" value="<?= $rv['id'] ?>">
+                    <input type="hidden" name="action" value="terminer">
+                    <button type="submit" class="btn btn-sm btn-success me-1">Terminé</button>
+                  </form>
+                  <form method="POST" action="<?= BASE_URL ?>controllers/RendezVousController.php" style="display:inline" onsubmit="return confirm('Voulez-vous annuler ce rendez-vous ?');">
+                    <input type="hidden" name="rv_id" value="<?= $rv['id'] ?>">
+                    <input type="hidden" name="action" value="annuler">
+                    <button type="submit" class="btn btn-sm btn-danger">Annuler</button>
+                  </form>
+                <?php else: ?>
+                  <span>Aucune action</span>
+                <?php endif; ?>
+              </td>
             </tr>
-            <?php endforeach; ?>
+          <?php endforeach; ?>
         </tbody>
-    </table>
+      </table>
+    </div>
+  <?php else: ?>
+    <div class="alert alert-info">Aucun rendez-vous planifié.</div>
+  <?php endif; ?>
 </div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <?php require_once __DIR__ . '/../../includes/footer.php'; ?>
