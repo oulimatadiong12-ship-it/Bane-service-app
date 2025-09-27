@@ -1,15 +1,9 @@
-<?php 
+<?php  
 // views/admin/dashboard.php
 
-
-
 require_once __DIR__ . "/../../Includes/auth.php";
-require_once __DIR__ . "/../../config.php"; // pour BASE_URL
-
-
-
-
-require_once __DIR__ . "/../../Includes/auth.php";
+require_once __DIR__ . "/../../db/connexion.php";
+require_once __DIR__ . '/../../includes/navbar.php';
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -30,7 +24,7 @@ require_once __DIR__ . "/../../Includes/auth.php";
         </div>
         <div class="card-body">
             <p class="fs-5">
-                Bienvenue, 
+                Bienvenue,
                 <strong>
                 <?php
                 if (isset($_SESSION['user']['prenom']) && isset($_SESSION['user']['nom'])) {
@@ -44,34 +38,60 @@ require_once __DIR__ . "/../../Includes/auth.php";
                 </strong>
             </p>
 
-            <div class="row text-center">
+            <div class="row g-3 text-center">
                 <!-- Produits -->
-                <div class="col-md-3 mb-3">
-                    <a href="<?= BASE_URL ?>views/admin/produits.php" class="btn btn-outline-primary w-100">📦 Produits</a>
+                <div class="col-md-4 col-lg-3">
+                    <a href="<?= BASE_URL ?>/views/admin/produits.php" class="btn btn-outline-primary w-100">
+                        📦 Produits
+                    </a>
                 </div>
                 <!-- Commandes -->
-                <div class="col-md-3 mb-3">
-                    <a href="<?= BASE_URL ?>views/admin/commandes.php" class="btn btn-outline-success w-100">🛒 Commandes</a>
+                <div class="col-md-4 col-lg-3">
+                    <a href="<?= BASE_URL ?>/views/admin/commandes.php" class="btn btn-outline-success w-100">
+                        🛒 Commandes
+                    </a>
+                </div>
+                <!-- Détail Commande -->
+                <div class="col-md-4 col-lg-3">
+                    <a href="<?= BASE_URL ?>/views/admin/detail_commande.php" class="btn btn-outline-secondary w-100">
+                        📋 Détail Commande
+                    </a>
                 </div>
                 <!-- Abonnements -->
-                <div class="col-md-3 mb-3">
-                    <a href="<?= BASE_URL ?>views/admin/produits.php" class="btn btn-outline-primary w-100">📦 Produits</a>
-                    <a href="<?= BASE_URL ?>views/admin/abonnements.php" class="btn btn-outline-warning w-100">📑 Abonnements</a>
+                <div class="col-md-4 col-lg-3">
+                    <a href="<?= BASE_URL ?>/views/admin/abonnements.php" class="btn btn-outline-warning w-100">
+                        📑 Abonnements
+                    </a>
                 </div>
                 <!-- Finances -->
-                <div class="col-md-3 mb-3">
-                    <a href="<?= BASE_URL ?>views/admin/commandes.php" class="btn btn-outline-success w-100">🛒 Commandes</a>
-                    <a href="<?= BASE_URL ?>views/admin/finances.php" class="btn btn-outline-info w-100">💰 Finances</a>
+                <div class="col-md-4 col-lg-3">
+                    <a href="<?= BASE_URL ?>/views/admin/finances.php" class="btn btn-outline-info w-100">
+                        💰 Finances
+                    </a>
                 </div>
                 <!-- Utilisateurs -->
-                <div class="col-md-3 mb-3">
-                    <a href="<?= BASE_URL ?>views/admin/abonnements.php" class="btn btn-outline-warning w-100">📑 Abonnements</a>
-                    <a href="<?= BASE_URL ?>views/admin/utilisateurs.php" class="btn btn-outline-dark w-100">👤 Utilisateurs</a>
+                <div class="col-md-4 col-lg-3">
+                    <a href="<?= BASE_URL ?>/views/admin/utilisateurs.php" class="btn btn-outline-dark w-100">
+                        👤 Utilisateurs
+                    </a>
+                </div>
+                <!-- Services -->
+                <div class="col-md-4 col-lg-3">
+                    <a href="<?= BASE_URL ?>/views/admin/services.php" class="btn btn-outline-primary w-100">
+                        ⚙️ Services
+                    </a>
                 </div>
                 <!-- Promotions -->
-                <div class="col-md-3 mb-3">
-                    <a href="<?= BASE_URL ?>views/admin/finances.php" class="btn btn-outline-info w-100">💰 Finances</a>
-                    <a href="<?= BASE_URL ?>views/admin/promotions.php" class="btn btn-outline-danger w-100">🎁 Promotions</a>
+                <div class="col-md-4 col-lg-3">
+                    <a href="<?= BASE_URL ?>/views/admin/promotions.php" class="btn btn-outline-danger w-100">
+                        🎁 Promotions
+                    </a>
+                </div>
+                <!-- Forme Promotion -->
+                <div class="col-md-4 col-lg-3">
+                    <a href="<?= BASE_URL ?>/views/admin/form_promotion.php" class="btn btn-outline-success w-100">
+                        📝 Forme Promotion
+                    </a>
                 </div>
             </div>
 
@@ -83,7 +103,6 @@ require_once __DIR__ . "/../../Includes/auth.php";
         </div>
     </div>
 </div>
-
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

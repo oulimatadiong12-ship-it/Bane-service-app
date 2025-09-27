@@ -1,8 +1,10 @@
 <?php
-// views/client/commandes.php
+session_start();
 require_once __DIR__ . '/../../db/connexion.php';
 require_once __DIR__ . '/../../models/Commande.php';
-require_once __DIR__ . '/../../includes/navbar.php';
+require_once __DIR__ . '/../../includes/navbar.php'; // navbar client (ajuste si besoin)
+
+
 
 if (!isset($_SESSION['user'])) {
     header("Location: " . BASE_URL . "/views/public/login.php");
@@ -43,7 +45,7 @@ $commandes = $commandeModel->getByUser($_SESSION['user']['id']);
             </thead>
             <tbody>
                 <?php if (!empty($commandes)): ?>
-                    <?php foreach($commandes as $cmd): ?>
+                    <?php foreach ($commandes as $cmd): ?>
                         <tr>
                             <td class="text-center fw-bold"><?= $cmd['id'] ?></td>
                             <td><?= date('d/m/Y H:i', strtotime($cmd['date_commande'])) ?></td>

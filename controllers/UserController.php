@@ -1,14 +1,14 @@
-<?php
+<?php 
 // controllers/UserController.php
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Inclure auth (BASE_URL), connexion PDO et navbar
-require_once __DIR__ . "/../Includes/auth.php";
 require_once __DIR__ . "/../db/connexion.php";
-require_once __DIR__ . '/../Includes/navbar.php';
-require_once __DIR__ . "/../views/admin/utilisateurs.php";
+require_once __DIR__ . "/../models/Utilisateur.php";
+require_once __DIR__ . "/../includes/auth.php";   // ✅ appel à auth.php
+require_once __DIR__ . "/../includes/navbar.php"; // pour BASE_URL
 
 $utilisateurModel = new Utilisateur($pdo);
 
@@ -24,12 +24,13 @@ if ($action === "login" && $_SERVER['REQUEST_METHOD'] === "POST") {
 
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['user'] = [
-            "id"    => $user['id'],
-            "nom"   => $user['nom'],
+            "id" => $user['id'],
+            "nom" => $user['nom'],
+            "prenom" => $user['prenom'] ?? "",
             "email" => $user['email'],
-            "role"  => $user['role']
+            "role" => $user['role']
         ];
-
+              
         // Redirection selon rôle
         switch ($user['role']) {
             case 'admin':
@@ -65,14 +66,16 @@ if ($action === "logout") {
 // Ajout admin/agent
 if ($action === "add" && $_SERVER['REQUEST_METHOD'] === "POST") {
     $nom = $_POST['nom'] ?? "";
+    $prenom = $_POST['prenom'] ?? "";
     $email = $_POST['email'] ?? "";
     $password = $_POST['password'] ?? "";
     $role = $_POST['role'] ?? "agent";
 
-    if ($utilisateurModel->add($nom, $email, $password, $role)) {
+    if ($utilisateurModel->add($nom, $prenom, $email, $password, $role)) {
         $_SESSION['success'] = "Utilisateur ajouté avec succès.";
     } else {
         $_SESSION['error'] = "Erreur lors de l'ajout.";
-    };
+    }
+    header("Location: " . BASE_URL . "views/admin/utilisateurs.php");
     exit;
 }
