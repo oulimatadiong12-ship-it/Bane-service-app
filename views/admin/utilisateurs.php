@@ -1,5 +1,6 @@
 <?php 
 // views/admin/utilisateurs.php
+session_start();
 require_once __DIR__ . "/../../models/Utilisateur.php";
 require_once __DIR__ . "/../../db/connexion.php";
 require_once __DIR__ . '/../../includes/header.php';
@@ -49,7 +50,6 @@ $users = $utilisateurModel->getAll();
                     <tr>
                         <th>ID</th>
                         <th>Nom</th>
-                        <th>Prénom</th>
                         <th>Email</th>
                         <th>Rôle</th>
                     </tr>
@@ -59,7 +59,6 @@ $users = $utilisateurModel->getAll();
                         <tr>
                             <td><?= htmlspecialchars($u['id']) ?></td>
                             <td><?= htmlspecialchars($u['nom']) ?></td>
-                            <td><?= htmlspecialchars($u['prenom']) ?></td>
                             <td><?= htmlspecialchars($u['email']) ?></td>
                             <td>
                                 <span class="badge <?= $u['role'] === 'admin' ? 'bg-danger' : 'bg-info' ?>">
@@ -79,15 +78,10 @@ $users = $utilisateurModel->getAll();
             Ajouter un administrateur / agent
         </div>
         <div class="card-body">
-            <form method="post" action="<?= BASE_URL ?>/controllers/UserController.php?action=add">
+            <form method="post" action="/controllers/UserController.php?action=add">
                 <div class="mb-3">
                     <label class="form-label">Nom</label>
                     <input type="text" name="nom" class="form-control" placeholder="Entrez le nom" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Prénom</label>
-                    <input type="text" name="prenom" class="form-control" placeholder="Entrez le prénom" required>
                 </div>
 
                 <div class="mb-3">
@@ -105,8 +99,6 @@ $users = $utilisateurModel->getAll();
                     <select name="role" class="form-select">
                         <option value="admin">Admin</option>
                         <option value="agent">Technicien</option>
-                        <option value="abonne">Abonné</option>
-                        <option value="client">Client</option>
                     </select>
                 </div>
 
@@ -118,7 +110,8 @@ $users = $utilisateurModel->getAll();
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
 
 <?php require_once __DIR__ . '/../../includes/footer.php'; ?>
+
+</body>
+</html>

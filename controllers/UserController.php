@@ -30,7 +30,7 @@ if ($action === "login" && $_SERVER['REQUEST_METHOD'] === "POST") {
             "email" => $user['email'],
             "role" => $user['role']
         ];
-              
+
         // Redirection selon rôle
         switch ($user['role']) {
             case 'admin':
@@ -77,5 +77,43 @@ if ($action === "add" && $_SERVER['REQUEST_METHOD'] === "POST") {
         $_SESSION['error'] = "Erreur lors de l'ajout.";
     }
     header("Location: " . BASE_URL . "views/admin/utilisateurs.php");
+    exit;
+}
+
+// ✅ Mettre à jour profil (technicien)
+if ($action === "update_profil" && $_SERVER['REQUEST_METHOD'] === "POST") {
+    $id = $_SESSION['user']['id'];
+    $nom = $_POST['nom'] ?? '';
+    $prenom = $_POST['prenom'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $telephone = $_POST['telephone'] ?? null;
+    $adresse = $_POST['adresse'] ?? null;
+
+    if ($utilisateurModel->update($id, $nom, $prenom, $email, $telephone, $adresse)) {
+        $_SESSION['success'] = "Profil mis à jour avec succès.";
+    } else {
+        $_SESSION['error'] = "Erreur lors de la mise à jour du profil.";
+    }
+
+    header("Location: " . BASE_URL . "views/technicien/profil.php");
+    exit;
+}
+
+// ✅ Mettre à jour profil (client)
+if ($action === "update_client" && $_SERVER['REQUEST_METHOD'] === "POST") {
+    $id = $_SESSION['user']['id'];
+    $nom = $_POST['nom'] ?? '';
+    $prenom = $_POST['prenom'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $telephone = $_POST['telephone'] ?? null;
+    $adresse = $_POST['adresse'] ?? null;
+
+    if ($utilisateurModel->update($id, $nom, $prenom, $email, $telephone, $adresse)) {
+        $_SESSION['success'] = "Profil mis à jour avec succès.";
+    } else {
+        $_SESSION['error'] = "Erreur lors de la mise à jour du profil.";
+    }
+
+    header("Location: " . BASE_URL . "views/client/profil.php");
     exit;
 }
