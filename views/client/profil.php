@@ -44,7 +44,7 @@ $user = $_SESSION['user'] ?? null;
                     <h4>✏️ Mettre à jour mes informations</h4>
                 </div>
                 <div class="card-body">
-                    <form action="<?= BASE_URL ?>/controllers/UserController.php?action=updateProfile" method="POST">
+                    <form action="<?= BASE_URL ?>controllers/UserController.php?action=updateProfile" method="POST">
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label">Prénom</label>

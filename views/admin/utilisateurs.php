@@ -50,6 +50,7 @@ $users = $utilisateurModel->getAll();
                     <tr>
                         <th>ID</th>
                         <th>Nom</th>
+                        <th>Prénom</th>
                         <th>Email</th>
                         <th>Rôle</th>
                     </tr>
@@ -59,9 +60,16 @@ $users = $utilisateurModel->getAll();
                         <tr>
                             <td><?= htmlspecialchars($u['id']) ?></td>
                             <td><?= htmlspecialchars($u['nom']) ?></td>
+                            <td><?= htmlspecialchars($u['prenom']) ?></td>
                             <td><?= htmlspecialchars($u['email']) ?></td>
                             <td>
-                                <span class="badge <?= $u['role'] === 'admin' ? 'bg-danger' : 'bg-info' ?>">
+                                <span class="badge 
+                                    <?php 
+                                        if($u['role'] === 'admin') echo 'bg-danger';
+                                        elseif($u['role'] === 'agent') echo 'bg-info';
+                                        elseif($u['role'] === 'client') echo 'bg-warning text-dark';
+                                        else echo 'bg-secondary';
+                                    ?>">
                                     <?= htmlspecialchars($u['role']) ?>
                                 </span>
                             </td>
@@ -75,13 +83,18 @@ $users = $utilisateurModel->getAll();
     <!-- Formulaire ajout utilisateur -->
     <div class="card shadow-sm">
         <div class="card-header bg-success text-white">
-            Ajouter un administrateur / agent
+            Ajouter un utilisateur
         </div>
         <div class="card-body">
-            <form method="post" action="/controllers/UserController.php?action=add">
+            <form method="post" action="<?= BASE_URL ?>controllers/UserController.php?action=add">
                 <div class="mb-3">
                     <label class="form-label">Nom</label>
                     <input type="text" name="nom" class="form-control" placeholder="Entrez le nom" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Prénom</label>
+                    <input type="text" name="prenom" class="form-control" placeholder="Entrez le prénom" required>
                 </div>
 
                 <div class="mb-3">
@@ -99,6 +112,8 @@ $users = $utilisateurModel->getAll();
                     <select name="role" class="form-select">
                         <option value="admin">Admin</option>
                         <option value="agent">Technicien</option>
+                        <option value="client">Client</option>
+                        <option value="abonne">Abonné</option>
                     </select>
                 </div>
 
@@ -112,4 +127,3 @@ $users = $utilisateurModel->getAll();
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
