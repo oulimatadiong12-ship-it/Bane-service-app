@@ -57,10 +57,6 @@ require_once __DIR__ . '/../../includes/navbar.php';
                         📋 Détail Commande
                     </a>
                 </div>
-                <!-- Détails Commande -->
-                <div class="col-md-3">
-                    <a href="<?= BASE_URL ?>views/admin/detail_commande.php" class="btn btn-outline-secondary w-100">📋 Détails Commande</a>
-                </div>
                 <!-- Abonnements -->
                 <div class="col-md-4 col-lg-3">
                     <a href="<?= BASE_URL ?>/views/admin/abonnements.php" class="btn btn-outline-warning w-100">
@@ -96,14 +92,6 @@ require_once __DIR__ . '/../../includes/navbar.php';
                     <a href="<?= BASE_URL ?>/views/admin/form_promotion.php" class="btn btn-outline-success w-100">
                         📝 Forme Promotion
                     </a>
-                </div>
-                <!-- Forme Promotion -->
-                <div class="col-md-3">
-                    <a href="<?= BASE_URL ?>views/admin/promotion_form.php" class="btn btn-outline-danger w-100">📝 Forme Promotion</a>
-                </div>
-                <!-- Services -->
-                <div class="col-md-3">
-                    <a href="<?= BASE_URL ?>views/admin/services.php" class="btn btn-outline-primary w-100">🛠 Services</a>
                 </div>
             </div>
 
