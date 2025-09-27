@@ -1,11 +1,8 @@
 <?php
-require_once __DIR__ . '/../../Includes/header.php';
-require_once __DIR__ . '/../../Includes/navbar.php';
+require_once __DIR__ . '/../../includes/header.php';
+require_once __DIR__ . '/../../includes/navbar.php';
 require_once __DIR__ . '/../../controllers/InterventionController.php';
 ?>
-
-<!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
   /* Eviter scroll horizontal */
@@ -43,11 +40,19 @@ require_once __DIR__ . '/../../controllers/InterventionController.php';
 
   /* Contenu à droite */
   .content {
-    margin-left: 220px;
-    padding: 2rem;
-    background-color: #f8f9fa;
-    min-height: 100vh;
-  }
+  margin-left: 220px;
+  padding: 2rem;
+  margin-top: 56px; 
+  padding-bottom: 70px; /* espace pour le footer */
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+
+/* Ajout pour espacer l'alerte du bord */
+.content > .alert {
+  margin-left: 10px;
+}
 
   /* Table style */
   table th, table td {
@@ -158,8 +163,5 @@ require_once __DIR__ . '/../../controllers/InterventionController.php';
         <div class="alert alert-info">Aucune intervention enregistrée.</div>
     <?php endif; ?>
 </div>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <?php require_once __DIR__ . '/../../includes/footer.php'; ?>

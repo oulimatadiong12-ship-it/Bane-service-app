@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/../../includes/header.php';
-require_once __DIR__ . '/../../includes/navbar.php';
+require_once __DIR__ . '/../../Includes/header.php';
+require_once __DIR__ . '/../../Includes/navbar.php';
 require_once __DIR__ . '/../../controllers/RendezVousController.php';
 ?>
 
@@ -18,7 +18,7 @@ require_once __DIR__ . '/../../controllers/RendezVousController.php';
     top: 56px; /* hauteur navbar */
     left: 0;
     width: 220px;
-    height: 100vh;
+    height: calc(100vh - 56px);
     padding: 1rem;
     background-color: #f8f9fa;
     border-right: 1px solid #dee2e6;
@@ -43,9 +43,11 @@ require_once __DIR__ . '/../../controllers/RendezVousController.php';
   /* Contenu principal */
   .content {
     margin-left: 220px;
+    margin-top: 56px;       /* décalage sous la navbar fixe */
     padding: 2rem;
+    padding-bottom: 70px;   /* éviter que le footer cache le contenu */
     background-color: #f8f9fa;
-    min-height: 100vh;
+    min-height: calc(100vh - 56px);
   }
 
   /* Responsive */
@@ -60,7 +62,9 @@ require_once __DIR__ . '/../../controllers/RendezVousController.php';
     }
     .content {
       margin-left: 0;
+      margin-top: 0; /* plus besoin de marge sur petit écran */
       padding: 1rem;
+      min-height: auto;
     }
   }
 </style>
@@ -126,4 +130,4 @@ require_once __DIR__ . '/../../controllers/RendezVousController.php';
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-<?php require_once __DIR__ . '/../../includes/footer.php'; ?>
+<?php
