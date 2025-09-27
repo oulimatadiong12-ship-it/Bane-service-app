@@ -82,7 +82,7 @@ function renderNavbar($role)
     $menus = getMenuByRole($role);
     ?>
     <!-- Navbar Bootstrap -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
             <!-- Logo -->
             <a class="navbar-brand" href="<?= BASE_URL ?>index.php">Bane Service</a>
