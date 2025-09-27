@@ -113,4 +113,3 @@ $users = $utilisateurModel->getAll();
 </body>
 </html>
 
-<?php require_once __DIR__ . '/../../includes/footer.php'; ?>
