@@ -118,5 +118,4 @@ function renderNavbar($role)
 }
 
 
-// Rendu navbar
-renderNavbar($role);
+

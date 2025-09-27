@@ -20,10 +20,10 @@ class LigneCommande {
     // Récupérer les lignes d'une commande
     public function getByCommande($commande_id) {
         $stmt = $this->pdo->prepare("
-            SELECT lc.*, p.nom as produit_nom, p.image
-            FROM lignecommande lc
-            LEFT JOIN produit p ON lc.produit_id = p.id
-            WHERE lc.commande_id = ?
+             SELECT lc.*, p.libelle AS produit_nom
+        FROM lignecommande lc
+        JOIN Produit p ON lc.produit_id = p.id
+        WHERE lc.commande_id = ?
         ");
         $stmt->execute([$commande_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

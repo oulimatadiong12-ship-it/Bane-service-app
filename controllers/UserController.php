@@ -7,8 +7,8 @@ if (session_status() === PHP_SESSION_NONE) {
 
 require_once __DIR__ . "/../db/connexion.php";
 require_once __DIR__ . "/../models/Utilisateur.php";
-require_once __DIR__ . '/../Includes/navbar.php';
-
+require_once __DIR__ . "/../includes/auth.php";   // ✅ appel à auth.php
+require_once __DIR__ . "/../includes/navbar.php"; // pour BASE_URL
 
 $utilisateurModel = new Utilisateur($pdo);
 
@@ -21,8 +21,7 @@ if ($action === "login" && $_SERVER['REQUEST_METHOD'] === "POST") {
     $password = $_POST['password'] ?? "";
 
     $user = $utilisateurModel->getByEmail($email);
-     
-    
+
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['user'] = [
             "id" => $user['id'],
@@ -31,9 +30,6 @@ if ($action === "login" && $_SERVER['REQUEST_METHOD'] === "POST") {
             "email" => $user['email'],
             "role" => $user['role']
         ];
-       
-        $id = $_SESSION['user']['id'];
-    $profil = $utilisateurModel->getById($id);
 
         // Redirection selon rôle
         switch ($user['role']) {
@@ -84,14 +80,8 @@ if ($action === "add" && $_SERVER['REQUEST_METHOD'] === "POST") {
     exit;
 }
 
-
-$id = $_SESSION['user']['id'];
-$profil = $utilisateurModel->getById($id);
-
-// ✏️ ACTION : Mettre à jour le profil
+// ✅ Mettre à jour profil (technicien)
 if ($action === "update_profil" && $_SERVER['REQUEST_METHOD'] === "POST") {
-    
-
     $id = $_SESSION['user']['id'];
     $nom = $_POST['nom'] ?? '';
     $prenom = $_POST['prenom'] ?? '';
@@ -106,11 +96,11 @@ if ($action === "update_profil" && $_SERVER['REQUEST_METHOD'] === "POST") {
     }
 
     header("Location: " . BASE_URL . "views/technicien/profil.php");
+    exit;
 }
 
+// ✅ Mettre à jour profil (client)
 if ($action === "update_client" && $_SERVER['REQUEST_METHOD'] === "POST") {
-    
-
     $id = $_SESSION['user']['id'];
     $nom = $_POST['nom'] ?? '';
     $prenom = $_POST['prenom'] ?? '';
@@ -125,4 +115,5 @@ if ($action === "update_client" && $_SERVER['REQUEST_METHOD'] === "POST") {
     }
 
     header("Location: " . BASE_URL . "views/client/profil.php");
+    exit;
 }
