@@ -1,77 +1,99 @@
 <?php
 // models/Promotion.php
-
-class Promotion {
+class Promotion
+{
     private $pdo;
 
-    public function __construct($pdo) {
+    public function __construct(PDO $pdo)
+    {
         $this->pdo = $pdo;
     }
 
-    // Récupérer toutes les promotions
-    public function getAll() {
-        $stmt = $this->pdo->query("SELECT * FROM promotion ORDER BY id DESC");
+    //  Créer une promotion
+    public function create($titre, $description, $imagePath, $type, $dateDebut, $dateFin, $statut = 'active')
+    {
+        $sql = "INSERT INTO Promotion (titre, description, image_path, type, date_debut, date_fin, statut)
+                VALUES (:titre, :description, :image_path, :type, :date_debut, :date_fin, :statut)";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([
+            ':titre' => $titre,
+            ':description' => $description,
+            ':image_path' => $imagePath,
+            ':type' => $type,
+            ':date_debut' => $dateDebut,
+            ':date_fin' => $dateFin,
+            ':statut' => $statut
+        ]);
+    }
+
+    // Obtenir toutes les promotions
+    public function getAll()
+    {
+        $stmt = $this->pdo->query("SELECT * FROM Promotion ORDER BY date_debut DESC");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Récupérer les promotions actives
-    public function getActive() {
-        $stmt = $this->pdo->prepare("
-            SELECT * FROM promotion 
-            WHERE statut='active' 
-            AND date_fin >= CURDATE() 
-            ORDER BY date_debut DESC
-        ");
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    // Récupérer une promotion par ID
-    public function getById($id) {
-        $stmt = $this->pdo->prepare("SELECT * FROM promotion WHERE id=?");
-        $stmt->execute([$id]);
+    //  Trouver une promotion par ID
+    public function getById($id)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM Promotion WHERE id = :id");
+        $stmt->execute([':id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Créer une promotion
-    public function create($data) {
-        $stmt = $this->pdo->prepare("
-            INSERT INTO promotion (titre, description, image_path, type, date_debut, date_fin, statut) 
-            VALUES (?,?,?,?,?,?,?)
-        ");
-        $stmt->execute([
-            $data['titre'],
-            $data['description'],
-            $data['image_path'] ?? null,
-            $data['type'],
-            $data['date_debut'],
-            $data['date_fin'],
-            $data['statut'] ?? 'active'
+    //  Modifier une promotion
+    public function update($id, $titre, $description, $imagePath, $type, $dateDebut, $dateFin, $statut)
+    {
+        $sql = "UPDATE Promotion 
+                SET titre = :titre,
+                    description = :description,
+                    image_path = :image_path,
+                    type = :type,
+                    date_debut = :date_debut,
+                    date_fin = :date_fin,
+                    statut = :statut
+                WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([
+            ':id' => $id,
+            ':titre' => $titre,
+            ':description' => $description,
+            ':image_path' => $imagePath,
+            ':type' => $type,
+            ':date_debut' => $dateDebut,
+            ':date_fin' => $dateFin,
+            ':statut' => $statut
         ]);
     }
 
-    // Mettre à jour une promotion
-    public function update($id, $data) {
-        $stmt = $this->pdo->prepare("
-            UPDATE promotion 
-            SET titre=?, description=?, image_path=?, type=?, date_debut=?, date_fin=?, statut=? 
-            WHERE id=?
-        ");
-        $stmt->execute([
-            $data['titre'],
-            $data['description'],
-            $data['image_path'] ?? null,
-            $data['type'],
-            $data['date_debut'],
-            $data['date_fin'],
-            $data['statut'],
-            $id
-        ]);
+    //  Supprimer une promotion
+    public function delete($id)
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM Promotion WHERE id = :id");
+        return $stmt->execute([':id' => $id]);
     }
 
-    // Supprimer une promotion
-    public function delete($id) {
-        $stmt = $this->pdo->prepare("DELETE FROM promotion WHERE id=?");
-        $stmt->execute([$id]);
+    public function getPromotionsActives($search = '') {
+    $sql = "SELECT * FROM promotion WHERE statut = 'active'";
+
+    if (!empty($search)) {
+        $sql .= " AND (titre LIKE :search OR description LIKE :search)";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':search', "%$search%");
+    } else {
+        $stmt = $this->pdo->prepare($sql);
+    }
+
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+    //  Rechercher par titre ou description
+    public function search($term)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM Promotion WHERE titre LIKE :term OR description LIKE :term");
+        $stmt->execute([':term' => '%' . $term . '%']);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
