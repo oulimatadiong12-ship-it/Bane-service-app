@@ -4,7 +4,6 @@ require_once __DIR__ . '/../db/connexion.php';
 require_once __DIR__ . '/../models/Service.php';
 require_once __DIR__ . '/../Includes/navbar.php';
 
-
 $serviceModel = new Service($pdo);
 
 // POST actions

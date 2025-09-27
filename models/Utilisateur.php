@@ -8,7 +8,7 @@ class Utilisateur {
 
     // 🔹 Récupérer tous les utilisateurs
     public function getAll() {
-        $stmt = $this->db->query("SELECT id, nom, prenom, email, role FROM Utilisateur");
+        $stmt = $this->db->query("SELECT id, nom, prenom, email, role FROM Utilisateur ORDER BY id ASC");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -19,13 +19,6 @@ class Utilisateur {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // 🔹 Récupérer un utilisateur par prénom
-    public function getByPrenom($prenom) {
-        $stmt = $this->db->prepare("SELECT * FROM Utilisateur WHERE prenom = :prenom LIMIT 1");
-        $stmt->execute(['prenom' => $prenom]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
     // 🔹 Récupérer un utilisateur par email
     public function getByEmail($email) {
         $stmt = $this->db->prepare("SELECT * FROM Utilisateur WHERE email = :email LIMIT 1");
@@ -33,8 +26,13 @@ class Utilisateur {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // 🔹 Ajouter un utilisateur
-    public function add($nom, $prenom, $email, $password, $role = 'client, admin; technicien, abonne') {
+    // 🔹 Ajouter un utilisateur avec vérification d'email
+    public function add($nom, $prenom, $email, $password, $role = 'client') {
+        // Vérifier si l'email existe déjà
+        if ($this->getByEmail($email)) {
+            return false; // Email déjà utilisé
+        }
+
         $hash = password_hash($password, PASSWORD_BCRYPT);
         $stmt = $this->db->prepare("INSERT INTO Utilisateur (nom, prenom, email, password, role) 
                                     VALUES (:nom, :prenom, :email, :password, :role)");
