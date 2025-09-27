@@ -117,5 +117,6 @@ function renderNavbar($role)
     <?php
 }
 
+
 // Rendu navbar
 renderNavbar($role);

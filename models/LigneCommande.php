@@ -22,7 +22,7 @@ class LigneCommande {
         $stmt = $this->pdo->prepare("
             SELECT lc.*, p.nom as produit_nom, p.image
             FROM lignecommande lc
-            LEFT JOIN produits p ON lc.produit_id = p.id
+            LEFT JOIN produit p ON lc.produit_id = p.id
             WHERE lc.commande_id = ?
         ");
         $stmt->execute([$commande_id]);

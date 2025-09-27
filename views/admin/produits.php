@@ -1,10 +1,7 @@
 <?php
 require_once __DIR__ . "/../../db/connexion.php";
 require_once __DIR__ . "/../../models/Produit.php";
-
-if (!defined('BASE_URL')) {
-    define('BASE_URL', 'http://localhost/Bane-service-app/');
-}
+require_once __DIR__ . '/../../includes/navbar.php';
 
 $produitModel = new Produit($pdo);
 $produits = $produitModel->getAllproduits();

@@ -3,10 +3,9 @@
 
 session_start();
 
-require_once __DIR__ . "/../../config.php";  
 require_once __DIR__ . "/../../db/connexion.php";
 require_once __DIR__ . "/../../models/Produit.php";
-
+require_once __DIR__ . '/../../includes/navbar.php';
 // Instanciation du modèle
 $produitModel = new Produit($pdo);
 
@@ -33,9 +32,7 @@ $connected = isset($_SESSION['user_id']);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body class="bg-light">
-
-<?php require_once __DIR__ . '/../../includes/navbar.php'; ?>
-
+    
 <div class="container my-5">
     <h1 class="mb-4 text-primary">Catalogue Produits</h1>
 
