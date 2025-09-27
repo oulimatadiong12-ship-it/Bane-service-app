@@ -43,6 +43,7 @@ function getMenuByRole($role)
                 "Dashboard"   => BASE_URL . "views/admin/dashboard.php",
                 "Produits"    => BASE_URL . "views/admin/produits.php",
                 "Commandes"   => BASE_URL . "views/admin/commandes.php",
+                "Détails Commande"   => BASE_URL . "views/admin/details_commande.php",
                 "Abonnements" => BASE_URL . "views/admin/abonnements.php",
                 "Utilisateurs"=> BASE_URL . "views/admin/utilisateurs.php",
                 "Finances"    => BASE_URL . "views/admin/finances.php",
