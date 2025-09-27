@@ -10,8 +10,11 @@ if (!defined('BASE_URL')) {
     define('BASE_URL', '/bane-service-app/');
 }
 
+
 // Récupération du rôle (par défaut = visiteur)
 $role = $_SESSION['role'] ?? 'guest';
+
+renderNavbar($role);
 
 /**
  * Menu principal public
