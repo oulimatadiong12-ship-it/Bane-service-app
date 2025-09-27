@@ -2,23 +2,27 @@
 require_once __DIR__ . '/../../Includes/header.php';
 require_once __DIR__ . '/../../Includes/navbar.php';
 require_once __DIR__ . '/../../controllers/RendezVousController.php';
+require_once __DIR__ . '/../../controllers/UserController.php';
 ?>
 
 <style>
-  /* Sidebar fixe */
   body {
-    overflow-x: hidden; /* éviter scroll horizontal */
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
   }
 
+  /* Sidebar fixe */
   .sidebar {
     position: fixed;
-    top: 56px; /* hauteur navbar si bootstrap navbar */
+    top: 56px; /* hauteur navbar Bootstrap */
     left: 0;
     width: 220px;
-    height: 100vh;
+    height: calc(100vh - 56px); /* pour éviter qu'elle dépasse la page */
     padding: 1rem;
     background-color: #f8f9fa;
     border-right: 1px solid #dee2e6;
+    overflow-y: auto;
   }
 
   .sidebar a {
@@ -28,6 +32,7 @@ require_once __DIR__ . '/../../controllers/RendezVousController.php';
     text-decoration: none;
     border-radius: 0.25rem;
     margin-bottom: 0.25rem;
+    transition: background-color 0.2s ease;
   }
 
   .sidebar a.active,
@@ -36,31 +41,40 @@ require_once __DIR__ . '/../../controllers/RendezVousController.php';
     color: white;
   }
 
-  /* Contenu à droite */
+  /* Contenu principal à droite de la sidebar */
   .content {
     margin-left: 220px;
     padding: 2rem;
+    padding-top: calc(2rem + 56px); /* compense la navbar fixe */
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    padding-bottom: 80px; /* espace pour le footer */
   }
 
-  /* Table style */
+  /* Table */
   table th, table td {
     vertical-align: middle !important;
   }
 
+  /* Responsive mobile */
   @media (max-width: 767.98px) {
     .sidebar {
       position: static;
       width: 100%;
       height: auto;
+      top: 0;
       border-right: none;
       border-bottom: 1px solid #dee2e6;
     }
+
     .content {
       margin-left: 0;
       padding: 1rem;
+      padding-top: calc(1rem + 56px); /* ajustement mobile */
     }
   }
 </style>
+
 
 <div class="sidebar">
     <h5 class="mb-4">Menu</h5>
@@ -68,6 +82,7 @@ require_once __DIR__ . '/../../controllers/RendezVousController.php';
     <a href="/Bane-Service-App/views/technicien/intervention.php">Mes interventions</a>
     <a href="/Bane-Service-App/views/technicien/profil.php">Mon profil</a>
     <a href="/Bane-Service-App/views/technicien/rendezvous.php">Mes rendez-vous</a>
+    <a href="<?= BASE_URL ?>/controllers/UserController.php?action=logout">Déconnexion</a>
 </div>
 
 <div class="content">

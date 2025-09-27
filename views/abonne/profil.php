@@ -1,17 +1,22 @@
 <?php
-require_once __DIR__ . '/../../Includes/header.php';
-require_once __DIR__ . '/../../Includes/navbar.php';
+require_once __DIR__ . '/../../includes/header.php';
+require_once __DIR__ . '/../../includes/navbar.php';
 require_once __DIR__ . '/../../controllers/AbonneController.php';
+require_once __DIR__ . '/../../controllers/UserController.php';
 ?>
 
-<!-- Bootstrap CSS (au cas où ce n’est pas déjà dans header.php) -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
     .wrapper {
         display: flex;
         min-height: 100vh;
-        overflow: hidden;
+        overflow-x: hidden;
     }
 
     .sidebar {
@@ -19,6 +24,7 @@ require_once __DIR__ . '/../../controllers/AbonneController.php';
         background-color: #343a40;
         color: white;
         padding: 1rem;
+        min-height: 100vh;
     }
 
     .sidebar a {
@@ -39,17 +45,30 @@ require_once __DIR__ . '/../../controllers/AbonneController.php';
         flex-grow: 1;
         padding: 2rem;
         background-color: #f8f9fa;
+        margin-top: 56px; /* hauteur de la navbar */
+        padding-bottom: 70px; /* espace pour ne pas coller le footer */
+    }
+
+    @media (max-width: 768px) {
+        .wrapper {
+            flex-direction: column;
+        }
+
+        .sidebar {
+            width: 100%;
+            min-height: auto;
+        }
     }
 </style>
 
 <div class="wrapper">
-
     <!-- Sidebar -->
     <nav class="sidebar">
         <h5 class="mb-4">Menu</h5>
         <a href="/Bane-Service-App/views/abonne/abonnement.php">Mes abonnements</a>
         <a href="/Bane-Service-App/views/abonne/dashboard.php">Dashboard</a>
         <a href="/Bane-Service-App/views/abonne/profil.php" class="active">Mon profil</a>
+        <a href="<?= BASE_URL ?>/controllers/UserController.php?action=logout">Déconnexion</a>
     </nav>
 
     <!-- Contenu principal -->
@@ -86,10 +105,8 @@ require_once __DIR__ . '/../../controllers/AbonneController.php';
             <button type="submit" name="action" value="update_profil" class="btn btn-primary">Mettre à jour</button>
         </form>
     </div>
-
 </div>
 
-<!-- Bootstrap JS (au cas où ce n’est pas dans le footer) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <?php require_once __DIR__ . '/../../includes/footer.php'; ?>

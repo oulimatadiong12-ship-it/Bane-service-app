@@ -81,6 +81,7 @@ require_once __DIR__ . '/../../controllers/UserController.php';
     <a href="/Bane-Service-App/views/technicien/intervention.php">Mes interventions</a>
     <a href="/Bane-Service-App/views/technicien/profil.php" class="active">Mon profil</a>
     <a href="/Bane-Service-App/views/technicien/rendezvous.php">Mes rendez-vous</a>
+    <a href="<?= BASE_URL ?>/controllers/UserController.php?action=logout">Déconnexion</a>
 </div>
 
 <div class="content">

@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../includes/header.php';
 require_once __DIR__ . '/../../includes/navbar.php';
 require_once __DIR__ . '/../../controllers/InterventionController.php';
+require_once __DIR__ . '/../../controllers/UserController.php';
 ?>
 
 <style>
@@ -82,6 +83,7 @@ require_once __DIR__ . '/../../controllers/InterventionController.php';
     <a href="/Bane-Service-App/views/technicien/intervention.php" class="active">Mes interventions</a>
     <a href="/Bane-Service-App/views/technicien/profil.php">Mon profil</a>
     <a href="/Bane-Service-App/views/technicien/rendezvous.php">Mes rendez-vous</a>
+    <a href="<?= BASE_URL ?>/controllers/UserController.php?action=logout">Déconnexion</a>
 </div>
 
 <div class="content">
