@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/../../includes/header.php';
 require_once __DIR__ . '/../../includes/navbar.php';
+require_once __DIR__ . '/../../controllers/RendezvousController.php';
+require_once __DIR__ . '/../../controllers/ServiceController.php';
 require_once __DIR__ . '/../../controllers/InterventionController.php';
 require_once __DIR__ . '/../../controllers/UserController.php';
 ?>

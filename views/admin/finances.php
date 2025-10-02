@@ -170,7 +170,7 @@ require_once __DIR__ . '/../../controllers/TransactionController.php';
                     <td><?= number_format($t['montant'], 2) ?> FCFA</td>
                     <td><?= htmlspecialchars($t['numero']) ?></td>
                     <td><?= htmlspecialchars($t['client_nom'] ?? '') ?></td>
-                    <td><?= htmlspecialchars($t['employe_nom'] ?? '') ?></td>
+                    <td><?= htmlspecialchars($t['employe_nom'] ?? '') ?>Cheikh Gueye</td>
                     <td><?= $t['date'] ?></td>
                     <td><?= htmlspecialchars($t['statut']) ?></td>
                 </tr>
