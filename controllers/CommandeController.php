@@ -1,55 +1,54 @@
 <?php
 // controllers/CommandeController.php
 
+
 require_once __DIR__ . '/../db/connexion.php';
 require_once __DIR__ . '/../models/Commande.php';
 require_once __DIR__ . '/../models/LigneCommande.php';
-require_once __DIR__ . '/../../includes/navbar.php';
+require_once __DIR__ . '/../includes/navbar.php';
 
-session_start();
-
-// Initialisation des modèles
 $commandeModel = new Commande($pdo);
 $ligneCommandeModel = new LigneCommande($pdo);
 
-// ------------------------
-// Supprimer une commande (Admin)
-// ------------------------
-if (isset($_GET['action']) && $_GET['action'] === 'supprimer' && isset($_GET['id'])) {
-    $commande_id = $_GET['id'];
+$action = $_GET['action'] ?? 'liste';
 
-    // Supprimer d'abord les lignes de commande liées
-    $ligneCommandeModel->deleteByCommande($commande_id);
+switch ($action) {
+    case 'liste':
+        // Récupère toutes les commandes avec les infos utilisateurs
+        $commandes = $commandeModel->getAll();
+        include __DIR__ . '/../views/admin/commandes.php';
+        break;
 
-    // Ensuite supprimer la commande
-    $commandeModel->delete($commande_id);
+    case 'details':
+        // Affiche les détails d'une commande donnée
+        if (isset($_GET['id'])) {
+            $commande = $commandeModel->getById($_GET['id']);
+            if (!$commande) {
+                echo "Commande introuvable.";
+                exit;
+            }
+            $lignes = $ligneCommandeModel->getByCommande($_GET['id']);
+            include __DIR__ . '/../views/admin/details_commande.php';
+        } else {
+            echo "ID de commande manquant.";
+        }
+        break;
 
-    header("Location: " . BASE_URL . "views/admin/commandes.php");
-    exit;
+    case 'changer_statut':
+        if (isset($_GET['id'], $_GET['statut'])) {
+            $commandeModel->updateStatut($_GET['id'], $_GET['statut']);
+        }
+        header("Location: " . BASE_URL . "/controllers/CommandeController.php?action=liste");
+        exit;
+
+    case 'supprimer':
+        if (isset($_GET['id'])) {
+            $ligneCommandeModel->deleteByCommande($_GET['id']);
+            $commandeModel->delete($_GET['id']);
+        }
+        header("Location: " . BASE_URL . "/controllers/CommandeController.php?action=liste");
+        exit;
+
+    default:
+        echo "Action inconnue.";
 }
-
-// ------------------------
-// Changer le statut d'une commande (Admin)
-// ------------------------
-if (isset($_GET['action']) && $_GET['action'] === 'changer_statut' && isset($_GET['id'], $_GET['statut'])) {
-    $commandeModel->updateStatut($_GET['id'], $_GET['statut']);
-    header("Location: " . BASE_URL . "views/admin/commandes.php");
-    exit;
-}
-
-// ------------------------
-// Détails d'une commande (Admin)
-// ------------------------
-if (isset($_GET['action']) && $_GET['action'] === 'details' && isset($_GET['id'])) {
-    $commande = $commandeModel->getById($_GET['id']);
-    $lignes   = $ligneCommandeModel->getByCommande($_GET['id']);
-
-    include __DIR__ . '/../views/admin/details_commande.php';
-    exit;
-}
-
-// ------------------------
-// Afficher toutes les commandes (Admin)
-// ------------------------
-$commandes = $commandeModel->getAll();
-include __DIR__ . '/../views/admin/commandes.php';
